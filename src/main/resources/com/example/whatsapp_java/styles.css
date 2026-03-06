@@ -1,0 +1,205 @@
+/* ============================================================
+   WhatsApp Dark Theme – Messagerie JavaFX
+   ============================================================ */
+
+/* ── Fond global ── */
+.root {
+    -fx-background-color: #0B141A;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 13px;
+}
+
+/* ── Labels ── */
+.label {
+    -fx-text-fill: #E9EDEF;
+}
+
+/* ── Champs de saisie ── */
+.text-field, .password-field {
+    -fx-background-color: #2A3942;
+    -fx-text-fill: #E9EDEF;
+    -fx-prompt-text-fill: #8696A0;
+    -fx-border-color: #3B4A54;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 12;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #00A884;
+    -fx-effect: dropshadow(gaussian, #00A88440, 4, 0, 0, 0);
+}
+
+/* ── Boutons ── */
+.button {
+    -fx-background-color: #00A884;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #02C99E;
+}
+
+.button:pressed {
+    -fx-background-color: #008F6F;
+}
+
+/* Bouton secondaire (Déconnexion, Rafraîchir) */
+.button-secondary {
+    -fx-background-color: #2A3942;
+    -fx-text-fill: #8696A0;
+    -fx-border-color: #3B4A54;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #3B4A54;
+    -fx-text-fill: #E9EDEF;
+}
+
+/* ── Titre / Header ── */
+.title-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #00A884;
+}
+
+.subtitle-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #8696A0;
+}
+
+/* ── Status label ── */
+.status-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #8696A0;
+}
+
+/* ── Sidebar (liste utilisateurs) ── */
+.sidebar {
+    -fx-background-color: #111B21;
+    -fx-border-color: #2A3942;
+    -fx-border-width: 0 1 0 0;
+}
+
+.sidebar-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #E9EDEF;
+    -fx-padding: 10 0 5 0;
+}
+
+/* ── ListView ── */
+.list-view {
+    -fx-background-color: #111B21;
+    -fx-border-color: transparent;
+}
+
+.list-view .list-cell {
+    -fx-background-color: #111B21;
+    -fx-text-fill: #E9EDEF;
+    -fx-padding: 10 12;
+    -fx-border-color: transparent transparent #1F2C34 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: #1F2C34;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: #2A3942;
+    -fx-text-fill: #E9EDEF;
+}
+
+/* ── Zone de chat ── */
+.chat-area {
+    -fx-background-color: #0B141A;
+    -fx-border-color: transparent;
+}
+
+.text-area {
+    -fx-background-color: #0B141A;
+    -fx-text-fill: #E9EDEF;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.text-area .content {
+    -fx-background-color: #0B141A;
+}
+
+.text-area:focused {
+    -fx-border-color: transparent;
+    -fx-effect: none;
+}
+
+/* ── Header de conversation ── */
+.chat-header {
+    -fx-background-color: #202C33;
+    -fx-padding: 10 15;
+    -fx-border-color: transparent transparent #2A3942 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.chat-with-label {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #E9EDEF;
+}
+
+/* ── Barre de saisie ── */
+.input-bar {
+    -fx-background-color: #202C33;
+    -fx-padding: 8 12;
+    -fx-border-color: #2A3942 transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ── Séparateur ── */
+.separator {
+    -fx-background-color: #2A3942;
+}
+
+/* ── ScrollPane ── */
+.scroll-pane {
+    -fx-background-color: #0B141A;
+    -fx-border-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: #0B141A;
+}
+
+.scroll-bar {
+    -fx-background-color: #0B141A;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #2A3942;
+    -fx-background-radius: 4;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+/* ── Login screen ── */
+.login-container {
+    -fx-background-color: #111B21;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, #00000080, 20, 0, 0, 4);
+    -fx-padding: 40 50;
+}
+
+/* ── BorderPane ── */
+.border-pane {
+    -fx-background-color: #0B141A;
+}

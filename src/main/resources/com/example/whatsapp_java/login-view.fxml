@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.example.whatsapp_java.client.LoginController"
+           style="-fx-background-color: #0B141A;">
+
+    <VBox spacing="16" alignment="CENTER" maxWidth="320" styleClass="login-container">
+        <padding>
+            <Insets top="40" right="50" bottom="40" left="50"/>
+        </padding>
+
+        <!-- Titre -->
+        <Label text="💬 Messagerie" styleClass="title-label" />
+        <Label text="Connectez-vous pour continuer" styleClass="subtitle-label" />
+
+        <!-- Champs -->
+        <VBox spacing="10">
+            <TextField fx:id="usernameField"
+                       promptText="Nom d'utilisateur"
+                       maxWidth="260" />
+            <PasswordField fx:id="passwordField"
+                           promptText="Mot de passe"
+                           maxWidth="260" />
+        </VBox>
+
+        <!-- Boutons -->
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="S'inscrire" onAction="#onRegister" styleClass="button-secondary" prefWidth="120" />
+            <Button text="Se connecter" onAction="#onLogin" prefWidth="120" />
+        </HBox>
+
+        <!-- Status -->
+        <Label fx:id="statusLabel" styleClass="status-label" wrapText="true" maxWidth="260" />
+    </VBox>
+
+</StackPane>

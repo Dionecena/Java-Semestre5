@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="600" prefWidth="900"
+            style="-fx-background-color: #0B141A;"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.whatsapp_java.client.ChatController">
+
+    <!-- ── SIDEBAR ── -->
+    <left>
+        <VBox prefWidth="240" spacing="0"
+              style="-fx-background-color: #111B21; -fx-border-color: #2A3942; -fx-border-width: 0 1 0 0;">
+
+            <!-- Header sidebar -->
+            <VBox style="-fx-background-color: #202C33; -fx-padding: 12 15;">
+                <Label text="💬 Contacts"
+                       style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #E9EDEF;" />
+            </VBox>
+
+            <!-- Liste utilisateurs -->
+            <ListView fx:id="usersList" VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: #111B21; -fx-border-color: transparent;" />
+
+            <!-- Boutons bas de sidebar -->
+            <VBox spacing="6" style="-fx-padding: 10 12;">
+                <Button text="⟳ Rafraîchir" onAction="#onRefreshUsers"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: #2A3942; -fx-text-fill: #8696A0; -fx-border-color: #3B4A54; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 6 10;" />
+                <Button text="⏻ Déconnexion" onAction="#onLogout"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: #2A3942; -fx-text-fill: #8696A0; -fx-border-color: #3B4A54; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 6 10;" />
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- ── ZONE DE CONVERSATION ── -->
+    <center>
+        <VBox style="-fx-background-color: #0B141A;">
+
+            <!-- Header conversation -->
+            <HBox style="-fx-background-color: #202C33; -fx-padding: 12 15; -fx-border-color: transparent transparent #2A3942 transparent; -fx-border-width: 0 0 1 0;">
+                <Label fx:id="chatWithLabel" text="Sélectionnez un contact"
+                       style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #E9EDEF;" />
+            </HBox>
+
+            <!-- Zone messages (ListView avec bulles) -->
+            <ListView fx:id="messagesListView"
+                      VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: #0B141A; -fx-border-color: transparent;" />
+
+            <!-- Barre de saisie -->
+            <HBox spacing="8"
+                  style="-fx-background-color: #202C33; -fx-padding: 10 12; -fx-border-color: #2A3942 transparent transparent transparent; -fx-border-width: 1 0 0 0;">
+                <TextField fx:id="messageField"
+                           promptText="Écrire un message..."
+                           HBox.hgrow="ALWAYS"
+                           style="-fx-background-color: #2A3942; -fx-text-fill: #E9EDEF; -fx-prompt-text-fill: #8696A0; -fx-border-color: transparent; -fx-background-radius: 20; -fx-padding: 8 14;" />
+                <Button text="Envoyer" onAction="#onSend"
+                        style="-fx-background-color: #00A884; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 18; -fx-cursor: hand;" />
+            </HBox>
+
+            <!-- Status bar -->
+            <HBox style="-fx-background-color: #111B21; -fx-padding: 4 12;">
+                <Label fx:id="statusLabel"
+                       style="-fx-font-size: 11px; -fx-text-fill: #8696A0;" />
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>
