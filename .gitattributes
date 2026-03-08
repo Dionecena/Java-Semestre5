@@ -1,0 +1,8 @@
+## Réduire Shell et Perl des stats GitHub (Linguist)
+
+# Script Maven Wrapper (shell) considéré comme "vendored"
+mvnw linguist-vendored
+
+# Hooks Git embarqués dans le dépôt bare interne
+Java-Whatsapp.git/hooks/* linguist-vendored
+

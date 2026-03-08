@@ -1,0 +1,2557 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentation Complète – Messagerie JavaFX</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0B141A;--bg2:#111B21;--bg3:#202C33;--bg4:#1F2C34;--bg5:#1a2530;
+  --accent:#00A884;--accent2:#008F6F;--text:#E9EDEF;--dim:#8696A0;
+  --border:#2A3942;--sw:290px;--hh:60px;
+  --yellow:#ffc107;--blue:#64b5f6;--red:#ef5350;--green:#66bb6a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
+
+/* HEADER */
+header{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--hh);background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:12px}
+.logo{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap}
+.logo small{color:var(--dim);font-weight:400;font-size:12px;margin-left:6px}
+.menu-btn{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px 8px}
+.search-wrap{margin-left:auto;position:relative;display:flex;align-items:center}
+#searchInput{background:var(--bg4);border:1px solid var(--border);border-radius:20px;padding:7px 14px 7px 36px;color:var(--text);font-size:13px;width:260px;outline:none;transition:border-color .2s}
+#searchInput:focus{border-color:var(--accent)}
+#searchInput::placeholder{color:var(--dim)}
+.search-icon{position:absolute;left:12px;color:var(--dim);font-size:14px;pointer-events:none}
+#searchResults{position:absolute;top:calc(100% + 6px);right:0;width:380px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;max-height:400px;overflow-y:auto;display:none;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.sr-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover{background:var(--bg4)}
+.sr-title{font-weight:600;font-size:13px;color:var(--accent)}
+.sr-preview{font-size:12px;color:var(--dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-empty{padding:16px;text-align:center;color:var(--dim);font-size:13px}
+
+/* LAYOUT */
+.layout{display:flex;margin-top:var(--hh);min-height:calc(100vh - var(--hh))}
+
+/* SIDEBAR */
+aside{width:var(--sw);background:var(--bg2);border-right:1px solid var(--border);position:fixed;top:var(--hh);bottom:0;left:0;overflow-y:auto;overflow-x:hidden;transition:transform .3s;z-index:100}
+aside::-webkit-scrollbar{width:4px}
+aside::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.nav-group{padding:12px 0 4px}
+.nav-group-title{font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--dim);text-transform:uppercase;padding:0 18px 6px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--dim);text-decoration:none;font-size:13px;border-left:3px solid transparent;cursor:pointer;transition:all .15s;user-select:none}
+.nav-item:hover{background:var(--bg4);color:var(--text)}
+.nav-item.active{background:rgba(0,168,132,.1);color:var(--accent);border-left-color:var(--accent)}
+.nav-item .ni{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.nav-sub{padding-left:12px}
+.nav-sub .nav-item{font-size:12px;padding:6px 18px 6px 30px}
+
+/* MAIN */
+main{margin-left:var(--sw);flex:1;padding:36px 48px 60px;max-width:960px}
+
+/* SECTIONS */
+.sec{display:none}
+.sec.active{display:block}
+
+/* TYPOGRAPHY */
+h1{font-size:1.9rem;font-weight:700;margin-bottom:6px}
+h1 .em{margin-right:8px}
+h2{font-size:1.3rem;font-weight:600;margin:32px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;font-weight:600;color:var(--accent);margin:22px 0 10px}
+h4{font-size:.95rem;font-weight:600;color:var(--dim);margin:16px 0 8px}
+p{margin-bottom:12px}
+.sub{color:var(--dim);font-size:.95rem;margin-bottom:28px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+strong{color:var(--text);font-weight:600}
+ul,ol{padding-left:22px;margin-bottom:12px}
+li{margin-bottom:4px}
+
+/* CODE */
+code{background:var(--bg5);color:#a8d8a8;padding:2px 6px;border-radius:4px;font-family:'Fira Code','Cascadia Code',Consolas,monospace;font-size:13px}
+pre{background:var(--bg5)!important;border:1px solid var(--border);border-radius:8px;padding:18px;overflow-x:auto;margin:14px 0;position:relative}
+pre code{background:none;padding:0;color:inherit;font-size:13px;line-height:1.6}
+.copy-btn{position:absolute;top:8px;right:8px;background:var(--border);border:none;color:var(--dim);padding:3px 9px;border-radius:4px;font-size:11px;cursor:pointer;transition:all .2s}
+.copy-btn:hover{background:var(--accent);color:#fff}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+th{background:var(--bg4);color:var(--accent);font-weight:600;text-align:left;padding:9px 12px;border:1px solid var(--border)}
+td{padding:8px 12px;border:1px solid var(--border)}
+tr:nth-child(even) td{background:rgba(31,44,52,.4)}
+tr:hover td{background:rgba(0,168,132,.05)}
+
+/* CALLOUTS */
+.note,.warn,.tip,.danger{border-radius:8px;padding:12px 16px;margin:14px 0;border-left:4px solid}
+.note{background:rgba(0,168,132,.1);border-color:var(--accent)}
+.warn{background:rgba(255,193,7,.1);border-color:var(--yellow)}
+.tip{background:rgba(100,181,246,.1);border-color:var(--blue)}
+.danger{background:rgba(239,83,80,.1);border-color:var(--red)}
+.note strong{color:var(--accent)}
+.warn strong{color:var(--yellow)}
+.tip strong{color:var(--blue)}
+.danger strong{color:var(--red)}
+
+/* METHOD CARDS */
+.method{background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:18px;margin:16px 0;border-left:4px solid var(--accent)}
+.method-sig{font-family:'Fira Code',Consolas,monospace;font-size:13px;color:#a8d8a8;background:var(--bg5);padding:8px 12px;border-radius:6px;margin-bottom:12px;overflow-x:auto;white-space:pre}
+.method-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.tag-returns{background:rgba(100,181,246,.2);color:var(--blue)}
+.tag-throws{background:rgba(239,83,80,.2);color:var(--red)}
+.tag-calls{background:rgba(0,168,132,.2);color:var(--accent)}
+.tag-calledby{background:rgba(255,193,7,.2);color:var(--yellow)}
+.tag-file{background:rgba(150,150,150,.2);color:var(--dim)}
+.method-desc{color:var(--text);font-size:14px}
+.method-params{margin-top:10px}
+.param-row{display:flex;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);font-size:13px}
+.param-name{color:var(--accent);font-family:monospace;min-width:140px}
+.param-type{color:var(--blue);font-family:monospace;min-width:120px}
+.param-desc{color:var(--dim)}
+
+/* RULE CARDS */
+.rule{background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:18px;margin:14px 0;border-left:4px solid var(--accent)}
+.rule-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.rule-badge{background:var(--accent);color:#fff;padding:3px 10px;border-radius:16px;font-weight:700;font-size:12px}
+.rule-title{font-weight:600;font-size:1rem}
+.rule-status{margin-left:auto;color:var(--green);font-size:13px;font-weight:600}
+
+/* DIAGRAM */
+.diagram{background:var(--bg5);border:1px solid var(--border);border-radius:8px;padding:18px;font-family:'Fira Code',Consolas,monospace;font-size:12px;color:#a8d8a8;overflow-x:auto;margin:14px 0;white-space:pre;line-height:1.5}
+
+/* CARDS GRID */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin:18px 0}
+.card{background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:18px;cursor:pointer;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card-icon{font-size:26px;margin-bottom:8px}
+.card-title{font-weight:600;margin-bottom:4px}
+.card-desc{font-size:12px;color:var(--dim)}
+
+/* BREADCRUMB */
+.bc{color:var(--dim);font-size:12px;margin-bottom:20px}
+.bc .sep{margin:0 5px}
+
+/* HIGHLIGHT */
+mark{background:rgba(0,168,132,.3);color:var(--text);border-radius:2px;padding:0 2px}
+
+/* SCROLL TOP */
+#scrollTop{position:fixed;bottom:20px;right:20px;background:var(--accent);color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;display:none;box-shadow:0 4px 12px rgba(0,168,132,.4);z-index:150}
+
+/* OVERLAY */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90}
+.overlay.open{display:block}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .menu-btn{display:block}
+  aside{transform:translateX(-100%)}
+  aside.open{transform:translateX(0)}
+  main{margin-left:0;padding:20px 16px 60px}
+  #searchInput{width:160px}
+  #searchResults{width:calc(100vw - 32px);right:-8px}
+}
+
+/* FOOTER */
+footer{margin-left:var(--sw);padding:20px 48px;border-top:1px solid var(--border);color:var(--dim);font-size:12px;display:flex;justify-content:space-between}
+@media(max-width:768px){footer{margin-left:0;padding:16px}}
+</style>
+</head>
+<body>
+
+<header>
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  <a class="logo" href="#" onclick="show('home')">💬 Messagerie JavaFX <small>Documentation</small></a>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Rechercher méthode, classe, concept..." oninput="doSearch(this.value)" onblur="setTimeout(()=>hideSearch(),200)" onfocus="if(this.value)doSearch(this.value)">
+    <div id="searchResults"></div>
+  </div>
+</header>
+
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+<aside id="sidebar">
+  <div class="nav-group">
+    <div class="nav-group-title">🏠 Accueil</div>
+    <div class="nav-item active" onclick="show('home')"><span class="ni">🏠</span>Vue d'ensemble</div>
+    <div class="nav-item" onclick="show('install')"><span class="ni">⚙️</span>Installation</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">🏗️ Architecture</div>
+    <div class="nav-item" onclick="show('arch')"><span class="ni">🏗️</span>Architecture globale</div>
+    <div class="nav-item" onclick="show('protocol')"><span class="ni">📡</span>Protocole réseau</div>
+    <div class="nav-item" onclick="show('db')"><span class="ni">🗄️</span>Base de données</div>
+    <div class="nav-item" onclick="show('entities')"><span class="ni">📊</span>Entités JPA</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">📋 Règles</div>
+    <div class="nav-item" onclick="show('rules')"><span class="ni">📋</span>RG1 – RG12</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">⚙️ Serveur</div>
+    <div class="nav-item" onclick="show('servermain')"><span class="ni">▶️</span>ServerMain</div>
+    <div class="nav-item" onclick="show('chatserver')"><span class="ni">🖥️</span>ChatServer</div>
+    <div class="nav-item" onclick="show('clienthandler')"><span class="ni">🔄</span>ClientHandler</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">🖥️ Client JavaFX</div>
+    <div class="nav-item" onclick="show('helloapp')"><span class="ni">🚀</span>HelloApplication</div>
+    <div class="nav-item" onclick="show('appsession')"><span class="ni">🔐</span>AppSession</div>
+    <div class="nav-item" onclick="show('chatclient')"><span class="ni">🔌</span>ChatClient</div>
+    <div class="nav-item" onclick="show('loginctrl')"><span class="ni">🔑</span>LoginController</div>
+    <div class="nav-item" onclick="show('chatctrl')"><span class="ni">💬</span>ChatController</div>
+    <div class="nav-item" onclick="show('msgitem')"><span class="ni">📝</span>MessageItem</div>
+    <div class="nav-item" onclick="show('msgcell')"><span class="ni">🫧</span>MessageCell</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">🗄️ Persistance</div>
+    <div class="nav-item" onclick="show('userdao')"><span class="ni">👤</span>UserDAO</div>
+    <div class="nav-item" onclick="show('msgdao')"><span class="ni">✉️</span>MessageDAO</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">🔧 Utilitaires</div>
+    <div class="nav-item" onclick="show('hibernate')"><span class="ni">🔗</span>HibernateUtil</div>
+    <div class="nav-item" onclick="show('password')"><span class="ni">🔒</span>PasswordUtil</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">🎨 Interface</div>
+    <div class="nav-item" onclick="show('fxml')"><span class="ni">🖼️</span>FXML & CSS</div>
+    <div class="nav-item" onclick="show('javafx')"><span class="ni">☕</span>Concepts JavaFX</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">📚 Concepts</div>
+    <div class="nav-item" onclick="show('hibernate_concepts')"><span class="ni">🐘</span>Hibernate/JPA</div>
+    <div class="nav-item" onclick="show('network')"><span class="ni">🌐</span>Réseau TCP/IP</div>
+    <div class="nav-item" onclick="show('threads')"><span class="ni">⚡</span>Threads & Concurrence</div>
+  </div>
+</aside>
+
+<main id="main">
+
+<!-- ═══════════════════════════════════════════════════════════ HOME -->
+<section class="sec active" id="sec-home">
+<h1><span class="em">💬</span>Application de Messagerie JavaFX</h1>
+<p class="sub">Documentation complète — chaque classe, méthode, protocole et concept expliqué</p>
+
+<div class="note"><strong>✅ Projet complet :</strong> Toutes les 12 règles de gestion sont implémentées. Utilisez la barre de recherche pour trouver n'importe quelle méthode, classe ou concept.</div>
+
+<h2>Technologies</h2>
+<table>
+<tr><th>Technologie</th><th>Version</th><th>Rôle</th></tr>
+<tr><td><strong>Java</strong></td><td>17</td><td>Langage principal — records, switch expressions, var</td></tr>
+<tr><td><strong>JavaFX</strong></td><td>21.0.6</td><td>Interface graphique — FXML, CSS, ObservableList</td></tr>
+<tr><td><strong>Sockets Java</strong></td><td>JDK</td><td>Communication TCP/IP client-serveur</td></tr>
+<tr><td><strong>Hibernate ORM</strong></td><td>6.5.2</td><td>Mapping objet-relationnel, gestion des sessions</td></tr>
+<tr><td><strong>Jakarta Persistence</strong></td><td>3.1.0</td><td>API JPA — annotations @Entity, @ManyToOne, etc.</td></tr>
+<tr><td><strong>Hibernate Validator</strong></td><td>8.0.1</td><td>Validation des contraintes (@NotBlank, @Size)</td></tr>
+<tr><td><strong>PostgreSQL JDBC</strong></td><td>42.7.3</td><td>Driver de connexion à PostgreSQL</td></tr>
+<tr><td><strong>Lombok</strong></td><td>1.18.34</td><td>Génération de code (@Data, @NoArgsConstructor)</td></tr>
+<tr><td><strong>Maven</strong></td><td>3.x</td><td>Build, dépendances, exécution</td></tr>
+</table>
+
+<h2>Navigation rapide</h2>
+<div class="cards">
+<div class="card" onclick="show('protocol')"><div class="card-icon">📡</div><div class="card-title">Protocole réseau</div><div class="card-desc">Toutes les commandes et réponses</div></div>
+<div class="card" onclick="show('rules')"><div class="card-icon">📋</div><div class="card-title">Règles RG1–RG12</div><div class="card-desc">Implémentation détaillée</div></div>
+<div class="card" onclick="show('clienthandler')"><div class="card-icon">🔄</div><div class="card-title">ClientHandler</div><div class="card-desc">Cœur du serveur</div></div>
+<div class="card" onclick="show('chatctrl')"><div class="card-icon">💬</div><div class="card-title">ChatController</div><div class="card-desc">Contrôleur principal</div></div>
+<div class="card" onclick="show('db')"><div class="card-icon">🗄️</div><div class="card-title">Base de données</div><div class="card-desc">Schéma complet</div></div>
+<div class="card" onclick="show('javafx')"><div class="card-icon">☕</div><div class="card-title">Concepts JavaFX</div><div class="card-desc">Platform.runLater, FXML...</div></div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ INSTALL -->
+<section class="sec" id="sec-install">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Installation</span></div>
+<h1><span class="em">⚙️</span>Installation & Configuration</h1>
+<p class="sub">Guide pas-à-pas pour démarrer l'application</p>
+
+<h2>Prérequis</h2>
+<table>
+<tr><th>Outil</th><th>Version</th><th>Vérification</th></tr>
+<tr><td>Java JDK</td><td>17+</td><td><code>java -version</code></td></tr>
+<tr><td>Maven</td><td>3.8+</td><td><code>mvn -version</code></td></tr>
+<tr><td>PostgreSQL</td><td>12+</td><td><code>psql --version</code></td></tr>
+</table>
+
+<h2>Étapes</h2>
+<h3>1. Cloner le projet</h3>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-bash">git clone https://github.com/Dionecena/Java-Whatsapp.git
+cd Java-Whatsapp</code></pre>
+
+<h3>2. Créer la base de données PostgreSQL</h3>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-sql">-- Se connecter à PostgreSQL
+psql -U postgres
+
+-- Créer la base
+CREATE DATABASE messagerie_db;
+
+-- Vérifier
+\l</code></pre>
+<div class="note"><strong>ℹ️ Tables automatiques :</strong> Hibernate crée les tables <code>users</code> et <code>messages</code> automatiquement au premier démarrage (<code>hbm2ddl.auto=update</code>).</div>
+
+<h3>3. Configurer Hibernate</h3>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-bash">cp src/main/resources/hibernate.cfg.xml.example src/main/resources/hibernate.cfg.xml</code></pre>
+<p>Éditer <code>hibernate.cfg.xml</code> :</p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-xml">&lt;property name="hibernate.connection.url"&gt;
+    jdbc:postgresql://localhost:5432/messagerie_db
+&lt;/property&gt;
+&lt;property name="hibernate.connection.username"&gt;postgres&lt;/property&gt;
+&lt;property name="hibernate.connection.password"&gt;VOTRE_MOT_DE_PASSE&lt;/property&gt;</code></pre>
+
+<h3>4. Compiler</h3>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-bash">mvn clean compile</code></pre>
+
+<h3>5. Lancer le serveur</h3>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-bash">mvn exec:java -Dexec.mainClass="com.example.whatsapp_java.server.ServerMain"</code></pre>
+<p>Sortie attendue :</p>
+<pre><code>[2026-02-28 10:00:00] [SERVER] Démarrage sur le port 5000</code></pre>
+
+<h3>6. Lancer le client</h3>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-bash">mvn javafx:run</code></pre>
+
+<h2>Structure des fichiers importants</h2>
+<table>
+<tr><th>Fichier</th><th>Rôle</th></tr>
+<tr><td><code>pom.xml</code></td><td>Dépendances Maven, configuration du build</td></tr>
+<tr><td><code>src/main/resources/hibernate.cfg.xml</code></td><td>Configuration DB (exclu du git)</td></tr>
+<tr><td><code>src/main/resources/hibernate.cfg.xml.example</code></td><td>Template de configuration</td></tr>
+<tr><td><code>src/main/resources/com/example/whatsapp_java/styles.css</code></td><td>Thème sombre WhatsApp</td></tr>
+<tr><td><code>src/main/resources/com/example/whatsapp_java/login-view.fxml</code></td><td>Interface de connexion</td></tr>
+<tr><td><code>src/main/resources/com/example/whatsapp_java/chat-view.fxml</code></td><td>Interface de chat</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ ARCHITECTURE -->
+<section class="sec" id="sec-arch">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Architecture</span></div>
+<h1><span class="em">🏗️</span>Architecture Client-Serveur</h1>
+<p class="sub">Communication TCP/IP avec Sockets Java — architecture en couches</p>
+
+<h2>Diagramme global</h2>
+<div class="diagram">┌─────────────────────────────────────────────────────────────────┐
+│                         CLIENT (JavaFX)                          │
+│                                                                 │
+│  ┌──────────────────┐    ┌──────────────────┐                  │
+│  │  LoginController  │    │  ChatController   │                  │
+│  │  (login-view.fxml)│    │  (chat-view.fxml) │                  │
+│  └────────┬─────────┘    └────────┬──────────┘                  │
+│           │                       │                             │
+│           └──────────┬────────────┘                             │
+│                      │ utilise                                  │
+│               ┌──────▼──────┐    ┌──────────────┐              │
+│               │  ChatClient  │    │  AppSession   │              │
+│               │  (Socket)    │    │  (singleton)  │              │
+│               └──────┬───────┘    └──────────────┘              │
+└──────────────────────┼──────────────────────────────────────────┘
+                       │  TCP/IP port 5000
+                       │  Format: "COMMANDE|arg1|arg2\n"
+┌──────────────────────┼──────────────────────────────────────────┐
+│                      │         SERVEUR                           │
+│               ┌──────▼──────┐                                   │
+│               │  ChatServer  │  ← ServerSocket(5000)            │
+│               └──────┬───────┘                                   │
+│                      │ new ClientHandler(socket).start()         │
+│         ┌────────────┼────────────┐                             │
+│         ▼            ▼            ▼                             │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐                        │
+│  │Handler 1 │ │Handler 2 │ │Handler N │  extends Thread         │
+│  └────┬─────┘ └────┬─────┘ └────┬─────┘                        │
+│       └────────────┼────────────┘                               │
+│                    │ utilise                                     │
+│          ┌─────────┴──────────┐                                 │
+│          │  UserDAO           │  HibernateUtil.getSessionFactory │
+│          │  MessageDAO        │  → Session → Transaction         │
+│          └─────────┬──────────┘                                 │
+│                    │                                             │
+│          ┌─────────▼──────────┐                                 │
+│          │  PostgreSQL         │  messagerie_db                  │
+│          │  tables: users,     │                                 │
+│          │          messages   │                                 │
+│          └────────────────────┘                                 │
+└─────────────────────────────────────────────────────────────────┘</div>
+
+<h2>Couches de l'application</h2>
+<table>
+<tr><th>Couche</th><th>Classes</th><th>Responsabilité</th></tr>
+<tr><td><strong>Présentation</strong></td><td>LoginController, ChatController, MessageCell</td><td>Interface utilisateur JavaFX</td></tr>
+<tr><td><strong>Application</strong></td><td>ChatClient, AppSession, MessageItem</td><td>Logique client, état de session</td></tr>
+<tr><td><strong>Serveur</strong></td><td>ChatServer, ClientHandler, ServerMain</td><td>Gestion des connexions, routage des commandes</td></tr>
+<tr><td><strong>Accès données</strong></td><td>UserDAO, MessageDAO</td><td>CRUD via Hibernate</td></tr>
+<tr><td><strong>Domaine</strong></td><td>User, Message, UserStatus, MessageStatus</td><td>Entités métier</td></tr>
+<tr><td><strong>Infrastructure</strong></td><td>HibernateUtil, PasswordUtil</td><td>Services transversaux</td></tr>
+</table>
+
+<h2>Flux de démarrage</h2>
+<div class="diagram">1. ServerMain.main()
+   └── new ChatServer(5000).start()
+       └── ServerSocket.accept() [boucle infinie]
+           └── new ClientHandler(socket).start() [pour chaque connexion]
+
+2. Launcher.main()
+   └── Application.launch(HelloApplication.class)
+       └── HelloApplication.start(stage)
+           └── FXMLLoader.load("login-view.fxml")
+               └── LoginController.initialize()</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ PROTOCOL -->
+<section class="sec" id="sec-protocol">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Architecture</span><span class="sep">›</span><span>Protocole réseau</span></div>
+<h1><span class="em">📡</span>Protocole Réseau</h1>
+<p class="sub">Toutes les commandes, réponses et codes d'erreur du protocole TCP texte</p>
+
+<h2>Format général</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code>COMMANDE|argument1|argument2|...\n</code></pre>
+<ul>
+<li>Séparateur : <code>|</code> (pipe)</li>
+<li>Terminateur de ligne : <code>\n</code> (géré par <code>PrintWriter.println()</code> et <code>BufferedReader.readLine()</code>)</li>
+<li>Encodage : UTF-8</li>
+<li>Transport : TCP (connexion persistante)</li>
+</ul>
+
+<h2>Commandes Client → Serveur</h2>
+
+<h3>REGISTER — Inscription</h3>
+<table>
+<tr><th>Format</th><td><code>REGISTER|username|passwordHash</code></td></tr>
+<tr><th>Paramètres</th><td><code>username</code> : nom d'utilisateur (non vide)<br><code>passwordHash</code> : SHA-256 du mot de passe</td></tr>
+<tr><th>Réponse succès</th><td><code>OK|REGISTER</code></td></tr>
+<tr><th>Réponses erreur</th><td><code>ERROR|Format REGISTER invalide</code><br><code>ERROR|Champs vides</code><br><code>ERROR|Username déjà utilisé</code></td></tr>
+<tr><th>Implémenté dans</th><td><code>ClientHandler.handleRegister()</code></td></tr>
+</table>
+
+<h3>LOGIN — Connexion</h3>
+<table>
+<tr><th>Format</th><td><code>LOGIN|username|passwordHash</code></td></tr>
+<tr><th>Paramètres</th><td><code>username</code> : nom d'utilisateur<br><code>passwordHash</code> : SHA-256 du mot de passe</td></tr>
+<tr><th>Réponse succès</th><td><code>OK|LOGIN</code> suivi de <code>ALL_USERS|...</code> et des messages en attente</td></tr>
+<tr><th>Réponses erreur</th><td><code>ERROR|Format LOGIN invalide</code><br><code>ERROR|Utilisateur introuvable</code><br><code>ERROR|Mot de passe incorrect</code><br><code>ERROR|Utilisateur déjà connecté</code></td></tr>
+<tr><th>Implémenté dans</th><td><code>ClientHandler.handleLogin()</code></td></tr>
+</table>
+
+<h3>LOGOUT — Déconnexion</h3>
+<table>
+<tr><th>Format</th><td><code>LOGOUT|</code></td></tr>
+<tr><th>Réponse</th><td><code>OK|LOGOUT</code> puis fermeture de la connexion</td></tr>
+<tr><th>Implémenté dans</th><td><code>ClientHandler.handleLogout()</code></td></tr>
+</table>
+
+<h3>USERS — Liste des utilisateurs en ligne</h3>
+<table>
+<tr><th>Format</th><td><code>USERS|</code></td></tr>
+<tr><th>Réponse</th><td><code>USERS|alice,bob,carol</code> (CSV des usernames en ligne)</td></tr>
+<tr><th>Note</th><td>Retourne seulement les utilisateurs ONLINE. Préférer ALL_USERS pour voir tout le monde.</td></tr>
+<tr><th>Implémenté dans</th><td><code>ClientHandler.handleLine()</code> → <code>server.onlineUsersCsv()</code></td></tr>
+</table>
+
+<h3>ALL_USERS — Tous les utilisateurs</h3>
+<table>
+<tr><th>Format</th><td><code>ALL_USERS|</code></td></tr>
+<tr><th>Réponse</th><td><code>ALL_USERS|alice:ONLINE,bob:OFFLINE,carol:ONLINE</code></td></tr>
+<tr><th>Note</th><td>Retourne TOUS les utilisateurs avec leur statut. Nécessaire pour RG6 (écrire à quelqu'un d'offline).</td></tr>
+<tr><th>Implémenté dans</th><td><code>ClientHandler.handleLine()</code> → <code>server.allUsersCsv()</code></td></tr>
+</table>
+
+<h3>SEND — Envoyer un message</h3>
+<table>
+<tr><th>Format</th><td><code>SEND|destinataire|contenu</code></td></tr>
+<tr><th>Paramètres</th><td><code>destinataire</code> : username du destinataire<br><code>contenu</code> : texte du message (1–1000 chars)</td></tr>
+<tr><th>Réponse succès</th><td><code>OK|SEND</code></td></tr>
+<tr><th>Réponses erreur</th><td><code>ERROR|Non authentifié</code><br><code>ERROR|Format SEND invalide</code><br><code>ERROR|Message vide</code><br><code>ERROR|Message trop long (max 1000 caractères)</code><br><code>ERROR|Destinataire introuvable</code></td></tr>
+<tr><th>Effet secondaire</th><td>Si le destinataire est en ligne : <code>MSG|sender|content|timestamp</code> lui est envoyé</td></tr>
+<tr><th>Implémenté dans</th><td><code>ClientHandler.handleSend()</code></td></tr>
+</table>
+
+<h3>HISTORY — Historique de conversation</h3>
+<table>
+<tr><th>Format</th><td><code>HISTORY|autreUtilisateur</code></td></tr>
+<tr><th>Réponse</th><td>Séquence : <code>HISTORY_BEGIN|</code> → N × <code>HISTORY|from|content|timestamp</code> → <code>HISTORY_END|</code></td></tr>
+<tr><th>Réponses erreur</th><td><code>ERROR|Non authentifié</code><br><code>ERROR|Format HISTORY invalide</code><br><code>ERROR|Utilisateur introuvable</code></td></tr>
+<tr><th>Implémenté dans</th><td><code>ClientHandler.handleHistory()</code></td></tr>
+</table>
+
+<h2>Réponses Serveur → Client</h2>
+<table>
+<tr><th>Réponse</th><th>Déclencheur</th><th>Traitement client</th></tr>
+<tr><td><code>OK|REGISTER</code></td><td>Inscription réussie</td><td><code>LoginController</code> : affiche message, ferme socket</td></tr>
+<tr><td><code>OK|LOGIN</code></td><td>Connexion réussie</td><td><code>LoginController</code> : ouvre la fenêtre de chat</td></tr>
+<tr><td><code>OK|LOGOUT</code></td><td>Déconnexion confirmée</td><td><code>ChatController</code> : retourne au login</td></tr>
+<tr><td><code>OK|SEND</code></td><td>Message envoyé</td><td><code>ChatController</code> : affiche "✓ Envoyé"</td></tr>
+<tr><td><code>ERROR|message</code></td><td>Toute erreur</td><td>Affiche le message dans <code>statusLabel</code></td></tr>
+<tr><td><code>USERS|csv</code></td><td>Réponse à USERS</td><td><code>ChatController</code> : met à jour la liste (compatibilité)</td></tr>
+<tr><td><code>ALL_USERS|csv</code></td><td>Connexion, réponse à ALL_USERS, broadcast</td><td><code>ChatController</code> : met à jour la liste avec statuts</td></tr>
+<tr><td><code>MSG|from|content|ts</code></td><td>Message reçu en temps réel ou offline</td><td><code>ChatController</code> : ajoute bulle ou notifie</td></tr>
+<tr><td><code>HISTORY_BEGIN|</code></td><td>Début historique</td><td><code>ChatController</code> : initialise le buffer</td></tr>
+<tr><td><code>HISTORY|from|content|ts</code></td><td>Un message de l'historique</td><td><code>ChatController</code> : ajoute au buffer</td></tr>
+<tr><td><code>HISTORY_END|</code></td><td>Fin historique</td><td><code>ChatController</code> : affiche le buffer dans la ListView</td></tr>
+</table>
+
+<h2>Exemple de session complète</h2>
+<div class="diagram">CLIENT                              SERVEUR
+  │                                    │
+  │── LOGIN|alice|a665a459... ─────────►│
+  │                                    │ findByUsername("alice") → User
+  │                                    │ password.equals(hash) → true
+  │                                    │ isUserOnline("alice") → false
+  │                                    │ registerActive("alice", this)
+  │                                    │ updateStatus("alice", ONLINE)
+  │◄── OK|LOGIN ───────────────────────│
+  │◄── ALL_USERS|alice:ONLINE,bob:OFF..│ allUsersCsv()
+  │◄── MSG|bob|Salut!|2026-02-28T10:00 │ getNonLus(alice) → [msg de bob]
+  │                                    │ updateStatus(msg, LU)
+  │                                    │ broadcastAllUsers() → tous les clients
+  │                                    │
+  │── SEND|bob|Bonjour! ───────────────►│
+  │                                    │ findByUsername("bob") → User
+  │                                    │ new Message(alice, bob, "Bonjour!", ENVOYE)
+  │                                    │ messageDAO.save(message)
+  │                                    │ isUserOnline("bob") → false
+  │                                    │ (message reste ENVOYE en DB)
+  │◄── OK|SEND ────────────────────────│
+  │                                    │
+  │── HISTORY|bob ─────────────────────►│
+  │                                    │ getHistorique(alice, bob) → [msg1, msg2]
+  │◄── HISTORY_BEGIN| ─────────────────│
+  │◄── HISTORY|bob|Salut!|2026-02-28.. │
+  │◄── HISTORY|alice|Bonjour!|2026-02..│
+  │◄── HISTORY_END| ───────────────────│
+  │                                    │
+  │── LOGOUT| ─────────────────────────►│
+  │◄── OK|LOGOUT ──────────────────────│
+  │                                    │ cleanup(): updateStatus(OFFLINE)
+  │                                    │ unregister("alice")
+  │                                    │ broadcastAllUsers()</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ DATABASE -->
+<section class="sec" id="sec-db">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Architecture</span><span class="sep">›</span><span>Base de données</span></div>
+<h1><span class="em">🗄️</span>Base de données</h1>
+<p class="sub">Schéma PostgreSQL — tables, colonnes, contraintes, index</p>
+
+<h2>Schéma complet</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-sql">-- Table users
+CREATE TABLE users (
+    id             BIGSERIAL    PRIMARY KEY,
+    username       VARCHAR(255) NOT NULL UNIQUE,  -- RG1: unicité
+    password       VARCHAR(255) NOT NULL,          -- RG9: hash SHA-256 (64 chars hex)
+    status         VARCHAR(10)  NOT NULL           -- RG4: 'ONLINE' ou 'OFFLINE'
+                   CHECK (status IN ('ONLINE', 'OFFLINE')),
+    date_creation  TIMESTAMP    NOT NULL
+);
+
+-- Index automatique sur username (contrainte UNIQUE)
+-- CREATE UNIQUE INDEX ukr43af9ap4edm43mmtq01oddj6 ON users(username);
+
+-- Table messages
+CREATE TABLE messages (
+    id           BIGSERIAL     PRIMARY KEY,
+    sender_id    BIGINT        NOT NULL REFERENCES users(id),
+    receiver_id  BIGINT        NOT NULL REFERENCES users(id),
+    contenu      VARCHAR(1000) NOT NULL,  -- RG7: max 1000 chars
+    date_envoi   TIMESTAMP     NOT NULL,  -- RG8: pour tri chronologique
+    statut       VARCHAR(10)   NOT NULL   -- 'ENVOYE', 'RECU', 'LU'
+                 CHECK (statut IN ('ENVOYE', 'RECU', 'LU'))
+);</code></pre>
+
+<h2>Colonnes détaillées</h2>
+<h3>Table <code>users</code></h3>
+<table>
+<tr><th>Colonne</th><th>Type SQL</th><th>Contrainte</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td>BIGSERIAL</td><td>PRIMARY KEY</td><td>Identifiant auto-incrémenté</td></tr>
+<tr><td><code>username</code></td><td>VARCHAR(255)</td><td>NOT NULL, UNIQUE</td><td>Nom d'utilisateur unique (RG1)</td></tr>
+<tr><td><code>password</code></td><td>VARCHAR(255)</td><td>NOT NULL</td><td>Hash SHA-256 (64 chars hexadécimaux)</td></tr>
+<tr><td><code>status</code></td><td>VARCHAR(10)</td><td>NOT NULL</td><td>'ONLINE' ou 'OFFLINE' (RG4)</td></tr>
+<tr><td><code>date_creation</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>Date d'inscription</td></tr>
+</table>
+
+<h3>Table <code>messages</code></h3>
+<table>
+<tr><th>Colonne</th><th>Type SQL</th><th>Contrainte</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td>BIGSERIAL</td><td>PRIMARY KEY</td><td>Identifiant auto-incrémenté</td></tr>
+<tr><td><code>sender_id</code></td><td>BIGINT</td><td>NOT NULL, FK → users.id</td><td>Expéditeur du message</td></tr>
+<tr><td><code>receiver_id</code></td><td>BIGINT</td><td>NOT NULL, FK → users.id</td><td>Destinataire du message</td></tr>
+<tr><td><code>contenu</code></td><td>VARCHAR(1000)</td><td>NOT NULL</td><td>Texte du message (max 1000 chars, RG7)</td></tr>
+<tr><td><code>date_envoi</code></td><td>TIMESTAMP</td><td>NOT NULL</td><td>Date/heure d'envoi (pour tri RG8)</td></tr>
+<tr><td><code>statut</code></td><td>VARCHAR(10)</td><td>NOT NULL</td><td>'ENVOYE', 'RECU' ou 'LU'</td></tr>
+</table>
+
+<h2>Requêtes importantes</h2>
+<h3>Récupérer l'historique entre deux utilisateurs (RG8)</h3>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-sql">SELECT m.*, u1.username AS sender_name, u2.username AS receiver_name
+FROM messages m
+JOIN users u1 ON m.sender_id = u1.id
+JOIN users u2 ON m.receiver_id = u2.id
+WHERE (m.sender_id = :u1_id AND m.receiver_id = :u2_id)
+   OR (m.sender_id = :u2_id AND m.receiver_id = :u1_id)
+ORDER BY m.date_envoi ASC;</code></pre>
+
+<h3>Récupérer les messages non lus (RG6)</h3>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-sql">SELECT m.*, u.username AS sender_name
+FROM messages m
+JOIN users u ON m.sender_id = u.id
+WHERE m.receiver_id = :user_id
+  AND m.statut != 'LU'
+ORDER BY m.date_envoi ASC;</code></pre>
+
+<h3>Mettre à jour le statut d'un utilisateur</h3>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-sql">UPDATE users SET status = 'ONLINE' WHERE username = 'alice';
+UPDATE users SET status = 'OFFLINE' WHERE username = 'alice';</code></pre>
+
+<h2>Cycle de vie d'un message</h2>
+<div class="diagram">INSERT INTO messages (..., statut='ENVOYE')
+         │
+         ├── Destinataire en ligne
+         │   └── UPDATE messages SET statut='RECU' WHERE id=?
+         │
+         └── Destinataire hors ligne
+             └── (reste ENVOYE)
+                 │
+                 └── Destinataire se reconnecte
+                     └── UPDATE messages SET statut='LU' WHERE id=?</div>
+
+<h2>Configuration Hibernate (hibernate.cfg.xml)</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd"&gt;
+&lt;hibernate-configuration&gt;
+  &lt;session-factory&gt;
+    &lt;!-- Connexion JDBC --&gt;
+    &lt;property name="hibernate.connection.driver_class"&gt;
+        org.postgresql.Driver
+    &lt;/property&gt;
+    &lt;property name="hibernate.connection.url"&gt;
+        jdbc:postgresql://localhost:5432/messagerie_db
+    &lt;/property&gt;
+    &lt;property name="hibernate.connection.username"&gt;postgres&lt;/property&gt;
+    &lt;property name="hibernate.connection.password"&gt;***&lt;/property&gt;
+
+    &lt;!-- Schéma auto (update = créer/modifier sans supprimer) --&gt;
+    &lt;property name="hibernate.hbm2ddl.auto"&gt;update&lt;/property&gt;
+
+    &lt;!-- Pool de connexions basique --&gt;
+    &lt;property name="hibernate.connection.pool_size"&gt;5&lt;/property&gt;
+
+    &lt;!-- Entités mappées --&gt;
+    &lt;mapping class="com.example.whatsapp_java.entities.User"/&gt;
+    &lt;mapping class="com.example.whatsapp_java.entities.Message"/&gt;
+  &lt;/session-factory&gt;
+&lt;/hibernate-configuration&gt;</code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ ENTITIES -->
+<section class="sec" id="sec-entities">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Architecture</span><span class="sep">›</span><span>Entités JPA</span></div>
+<h1><span class="em">📊</span>Entités JPA</h1>
+<p class="sub">Classes User et Message — annotations JPA, Lombok, enums</p>
+
+<h2>User.java</h2>
+<p><strong>Package :</strong> <code>com.example.whatsapp_java.entities</code><br>
+<strong>Table DB :</strong> <code>users</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">@Entity                    // Marque la classe comme entité JPA
+@Table(name = "users")     // Nom de la table en DB
+@Data                      // Lombok: génère getters, setters, equals, hashCode, toString
+@NoArgsConstructor         // Lombok: constructeur sans args (requis par JPA)
+@AllArgsConstructor        // Lombok: constructeur avec tous les args
+public class User {
+
+    @Id                                              // Clé primaire
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incrémenté (BIGSERIAL)
+    private Long id;
+
+    @NotBlank                                        // Validation: non vide
+    @Column(unique = true, nullable = false)         // Contrainte DB: UNIQUE NOT NULL
+    private String username;
+
+    @NotBlank
+    @Column(nullable = false)
+    private String password;                         // Hash SHA-256 (64 chars hex)
+
+    @NotNull
+    @Enumerated(EnumType.STRING)                     // Stocké comme 'ONLINE'/'OFFLINE'
+    @Column(nullable = false)
+    private UserStatus status;
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime dateCreation;
+}</code></pre>
+
+<h3>Annotations expliquées</h3>
+<table>
+<tr><th>Annotation</th><th>Provenance</th><th>Effet</th></tr>
+<tr><td><code>@Entity</code></td><td>Jakarta Persistence</td><td>Déclare la classe comme entité JPA mappée en DB</td></tr>
+<tr><td><code>@Table(name="users")</code></td><td>Jakarta Persistence</td><td>Spécifie le nom de la table (sinon = nom de la classe)</td></tr>
+<tr><td><code>@Id</code></td><td>Jakarta Persistence</td><td>Marque le champ comme clé primaire</td></tr>
+<tr><td><code>@GeneratedValue(IDENTITY)</code></td><td>Jakarta Persistence</td><td>Délègue la génération de l'ID à la DB (BIGSERIAL)</td></tr>
+<tr><td><code>@Column(unique=true)</code></td><td>Jakarta Persistence</td><td>Crée une contrainte UNIQUE en DB</td></tr>
+<tr><td><code>@Enumerated(STRING)</code></td><td>Jakarta Persistence</td><td>Stocke l'enum comme chaîne ('ONLINE') plutôt qu'entier</td></tr>
+<tr><td><code>@NotBlank</code></td><td>Jakarta Validation</td><td>Valide que le champ n'est pas null/vide/espaces</td></tr>
+<tr><td><code>@Data</code></td><td>Lombok</td><td>Génère getters, setters, equals(), hashCode(), toString()</td></tr>
+<tr><td><code>@NoArgsConstructor</code></td><td>Lombok</td><td>Génère <code>public User() {}</code> — requis par JPA</td></tr>
+<tr><td><code>@AllArgsConstructor</code></td><td>Lombok</td><td>Génère <code>public User(Long id, String username, ...)</code></td></tr>
+</table>
+
+<h2>Message.java</h2>
+<p><strong>Package :</strong> <code>com.example.whatsapp_java.entities</code><br>
+<strong>Table DB :</strong> <code>messages</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">@Entity
+@Table(name = "messages")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Message {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)              // Relation N:1 avec User
+    @JoinColumn(name = "sender_id", nullable = false) // Colonne FK en DB
+    private User sender;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "receiver_id", nullable = false)
+    private User receiver;
+
+    @NotBlank
+    @Size(max = 1000)                                // Validation: max 1000 chars
+    @Column(length = 1000, nullable = false)
+    private String contenu;
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime dateEnvoi;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MessageStatus statut;
+}</code></pre>
+
+<h3>@ManyToOne expliqué</h3>
+<p><code>@ManyToOne</code> signifie "plusieurs messages peuvent avoir le même expéditeur". Hibernate génère une colonne <code>sender_id</code> (clé étrangère) qui référence <code>users.id</code>.</p>
+<p><code>FetchType.EAGER</code> : Hibernate charge l'objet <code>User</code> associé immédiatement lors du chargement du <code>Message</code> (pas de lazy loading).</p>
+
+<h2>Enums</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// UserStatus.java
+public enum UserStatus {
+    ONLINE,   // Utilisateur connecté
+    OFFLINE   // Utilisateur déconnecté
+}
+
+// MessageStatus.java
+public enum MessageStatus {
+    ENVOYE,   // Sauvegardé en DB, destinataire hors ligne
+    RECU,     // Livré au destinataire en temps réel
+    LU        // Livré lors de la reconnexion du destinataire
+}</code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ RULES -->
+<section class="sec" id="sec-rules">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Règles de gestion</span></div>
+<h1><span class="em">📋</span>Règles de Gestion RG1–RG12</h1>
+<p class="sub">Toutes les règles du cahier des charges — implémentation détaillée avec code</p>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG1</span><span class="rule-title">Username unique</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>Le username doit être unique.</em></p>
+<p><strong>Où :</strong> <code>ClientHandler.handleRegister()</code> + contrainte <code>@Column(unique=true)</code> sur <code>User.username</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// ClientHandler.java – handleRegister()
+if (userDAO.findByUsername(u) != null) {
+    sendLine("ERROR|Username déjà utilisé");
+    return;
+}
+// User.java
+@Column(unique = true, nullable = false)
+private String username;</code></pre>
+<p><strong>Double protection :</strong> vérification applicative + contrainte DB. Si deux threads tentent simultanément d'inscrire le même username, la contrainte DB empêche la duplication.</p>
+</div>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG2</span><span class="rule-title">Authentification requise</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>Un utilisateur doit être authentifié pour envoyer ou consulter des messages.</em></p>
+<p><strong>Où :</strong> <code>ClientHandler.handleSend()</code> et <code>ClientHandler.handleHistory()</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// Vérification en début de handleSend() et handleHistory()
+if (username == null) {
+    sendLine("ERROR|Non authentifié");
+    return;
+}
+// username est null tant que handleLogin() n'a pas réussi</code></pre>
+</div>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG3</span><span class="rule-title">Un seul login à la fois</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>Un utilisateur ne peut être connecté qu'une seule fois simultanément.</em></p>
+<p><strong>Où :</strong> <code>ChatServer.registerActive()</code> utilise <code>ConcurrentHashMap.putIfAbsent()</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// ChatServer.java
+public boolean registerActive(String username, ClientHandler handler) {
+    // putIfAbsent est atomique : retourne null si la clé n'existait pas
+    return activeUsers.putIfAbsent(username, handler) == null;
+}
+// ClientHandler.java – handleLogin()
+if (server.isUserOnline(u)) {
+    sendLine("ERROR|Utilisateur déjà connecté"); return;
+}
+boolean ok = server.registerActive(u, this);
+if (!ok) {
+    sendLine("ERROR|Utilisateur déjà connecté"); return;
+}</code></pre>
+<p><strong>Pourquoi deux vérifications ?</strong> La première (<code>isUserOnline</code>) est rapide. La seconde (<code>registerActive</code> avec <code>putIfAbsent</code>) est atomique et protège contre les race conditions.</p>
+</div>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG4</span><span class="rule-title">Statut ONLINE/OFFLINE</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>À la connexion → ONLINE. À la déconnexion ou perte réseau → OFFLINE.</em></p>
+<p><strong>Où :</strong> <code>ClientHandler.handleLogin()</code> et <code>ClientHandler.cleanup()</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// À la connexion
+userDAO.updateStatus(u, UserStatus.ONLINE);
+
+// cleanup() est dans le bloc finally → exécuté TOUJOURS
+// (déconnexion volontaire OU perte réseau)
+private void cleanup() {
+    if (username != null) {
+        userDAO.updateStatus(username, UserStatus.OFFLINE);
+        server.unregister(username);
+        broadcastAllUsers();
+        username = null;
+    }
+    socket.close();
+}</code></pre>
+</div>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG5</span><span class="rule-title">Destinataire doit exister</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>Un message ne peut être envoyé que si le destinataire existe en base de données.</em></p>
+<p><strong>Où :</strong> <code>ClientHandler.handleSend()</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">User receiver = userDAO.findByUsername(to);
+if (receiver == null) {
+    sendLine("ERROR|Destinataire introuvable");
+    return;
+}
+// Seulement après cette vérification, le message est sauvegardé</code></pre>
+</div>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG6</span><span class="rule-title">Messages hors ligne livrés à la reconnexion</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>Si le destinataire est hors ligne, le message est enregistré et livré lors de sa prochaine connexion.</em></p>
+<p><strong>Où :</strong> <code>ClientHandler.handleSend()</code> (sauvegarde) + <code>ClientHandler.handleLogin()</code> (livraison)</p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// handleSend() : sauvegarde toujours, livre si en ligne
+Message message = new Message(null, sender, receiver, content,
+                              LocalDateTime.now(), MessageStatus.ENVOYE);
+messageDAO.save(message); // Toujours sauvegardé
+
+if (server.isUserOnline(to)) {
+    server.sendToUser(to, "MSG|" + username + "|" + content + "|" + message.getDateEnvoi());
+    messageDAO.updateStatus(message.getId(), MessageStatus.RECU);
+}
+// Si hors ligne : reste ENVOYE en DB
+
+// handleLogin() : livraison des messages en attente
+List&lt;Message&gt; pending = messageDAO.getNonLus(user); // statut != LU
+for (Message m : pending) {
+    sendLine("MSG|" + m.getSender().getUsername() + "|" + m.getContenu() + "|" + m.getDateEnvoi());
+    messageDAO.updateStatus(m.getId(), MessageStatus.LU);
+}</code></pre>
+</div>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG7</span><span class="rule-title">Validation du message</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>Le contenu ne doit pas être vide et ne doit pas dépasser 1000 caractères.</em></p>
+<p><strong>Où :</strong> <code>ClientHandler.handleSend()</code> (serveur) + <code>ChatController.onSend()</code> (client)</p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// Côté serveur (ClientHandler)
+if (content == null || content.trim().isEmpty()) {
+    sendLine("ERROR|Message vide"); return;
+}
+if (content.length() > 1000) {
+    sendLine("ERROR|Message trop long (max 1000 caractères)"); return;
+}
+// Côté client (ChatController) — validation préventive
+if (msg.isEmpty()) { statusLabel.setText("Message vide"); return; }
+if (msg.length() > 1000) { statusLabel.setText("Message trop long"); return; }</code></pre>
+</div>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG8</span><span class="rule-title">Historique chronologique</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>L'historique des messages doit être affiché par ordre chronologique.</em></p>
+<p><strong>Où :</strong> <code>MessageDAO.getHistorique()</code> — clause <code>ORDER BY m.dateEnvoi ASC</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">return session.createQuery(
+    "from Message m where " +
+    "(m.sender = :u1 and m.receiver = :u2) or " +
+    "(m.sender = :u2 and m.receiver = :u1) " +
+    "order by m.dateEnvoi asc",  // ← ASC = du plus ancien au plus récent
+    Message.class)...</code></pre>
+</div>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG9</span><span class="rule-title">Mots de passe hachés</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>Les mots de passe doivent être stockés sous forme hachée.</em></p>
+<p><strong>Où :</strong> <code>PasswordUtil.sha256()</code> appelé dans <code>LoginController.onLogin()</code> et <code>onRegister()</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// LoginController.java — le hash est calculé AVANT l'envoi
+String hash = PasswordUtil.sha256(password);
+client.sendLine("LOGIN|" + username + "|" + hash);
+// Le mot de passe en clair ne transite JAMAIS sur le réseau</code></pre>
+</div>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG10</span><span class="rule-title">Gestion de la perte de connexion</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>En cas de perte de connexion, le client doit afficher une erreur et passer hors ligne.</em></p>
+<p><strong>Où :</strong> <code>ChatController.handleDisconnect()</code> appelé par <code>ChatClient.Listener.onDisconnected()</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// ChatController.java
+private void handleDisconnect(Exception e) {
+    AppSession.setClient(null);
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Connexion perdue");
+    alert.setHeaderText("Déconnecté du serveur");
+    alert.setContentText("La connexion au serveur a été perdue.\n" +
+                         "Vous allez être redirigé vers l'écran de connexion.");
+    alert.showAndWait();
+    returnToLogin(); // Retour à login-view.fxml
+}
+// Côté serveur : cleanup() met le statut OFFLINE automatiquement</code></pre>
+</div>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG11</span><span class="rule-title">Thread séparé par client</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>Chaque client doit être géré dans un thread séparé côté serveur.</em></p>
+<p><strong>Où :</strong> <code>ClientHandler extends Thread</code> + <code>ChatServer.start()</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// ClientHandler.java
+public class ClientHandler extends Thread { ... }
+
+// ChatServer.java – start()
+while (true) {
+    Socket socket = serverSocket.accept();
+    ClientHandler handler = new ClientHandler(this, socket);
+    handler.start(); // Démarre un nouveau thread OS
+}</code></pre>
+</div>
+
+<div class="rule">
+<div class="rule-head"><span class="rule-badge">RG12</span><span class="rule-title">Journalisation structurée</span><span class="rule-status">✅ Implémenté</span></div>
+<p><em>Le serveur doit journaliser les connexions, déconnexions et envois de messages.</em></p>
+<p><strong>Où :</strong> <code>ClientHandler.log()</code> et <code>ChatServer.log()</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// Format : [yyyy-MM-dd HH:mm:ss] [SERVER] message
+private void log(String message) {
+    System.out.printf("[%s] [SERVER] %s%n",
+            LocalDateTime.now().format(FMT), message);
+}
+// Événements journalisés :
+// Connexion:    log("Connexion: " + u);
+// Déconnexion: log("Déconnexion: " + username);
+// Message:     log("Message: " + username + " -> " + to + " (" + content.length() + " chars)");
+// Inscription: log("Inscription: " + u);
+// Historique:  log("Historique envoyé à " + username + " pour " + other);</code></pre>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ SERVERMAIN -->
+<section class="sec" id="sec-servermain">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Serveur</span><span class="sep">›</span><span>ServerMain</span></div>
+<h1><span class="em">▶️</span>ServerMain</h1>
+<p class="sub">Point d'entrée du serveur</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/server/ServerMain.java</code><br>
+<strong>Package :</strong> <code>com.example.whatsapp_java.server</code></p>
+
+<h2>Code complet</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">package com.example.whatsapp_java.server;
+
+public class ServerMain {
+    public static void main(String[] args) {
+        int port = 5000;
+        ChatServer server = new ChatServer(port);
+        server.start(); // Bloquant : boucle infinie d'acceptation
+    }
+}</code></pre>
+
+<div class="method">
+<div class="method-sig">public static void main(String[] args)</div>
+<div class="method-meta">
+<span class="tag tag-file">ServerMain.java</span>
+<span class="tag tag-calls">ChatServer(5000)</span>
+<span class="tag tag-calls">server.start()</span>
+</div>
+<div class="method-desc">Point d'entrée JVM du serveur. Crée un <code>ChatServer</code> sur le port 5000 et le démarre. Cette méthode ne retourne jamais (boucle infinie dans <code>start()</code>).</div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ CHATSERVER -->
+<section class="sec" id="sec-chatserver">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Serveur</span><span class="sep">›</span><span>ChatServer</span></div>
+<h1><span class="em">🖥️</span>ChatServer</h1>
+<p class="sub">Serveur principal — gestion des connexions et des utilisateurs actifs</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/server/ChatServer.java</code></p>
+
+<h2>Attributs</h2>
+<table>
+<tr><th>Attribut</th><th>Type</th><th>Description</th></tr>
+<tr><td><code>port</code></td><td><code>int</code></td><td>Port d'écoute (5000)</td></tr>
+<tr><td><code>activeUsers</code></td><td><code>ConcurrentHashMap&lt;String, ClientHandler&gt;</code></td><td>Map username → handler des clients connectés. Thread-safe.</td></tr>
+<tr><td><code>userDAO</code></td><td><code>UserDAO</code></td><td>Accès à la table users pour <code>allUsersCsv()</code></td></tr>
+</table>
+
+<h2>Méthodes</h2>
+
+<div class="method">
+<div class="method-sig">public void start()</div>
+<div class="method-meta">
+<span class="tag tag-file">ChatServer.java</span>
+<span class="tag tag-calledby">ServerMain.main()</span>
+</div>
+<div class="method-desc">Démarre le serveur. Ouvre un <code>ServerSocket</code> sur le port configuré et entre dans une boucle infinie d'acceptation de connexions. Pour chaque connexion entrante, crée un <code>ClientHandler</code> et le démarre dans un nouveau thread (RG11).</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public void start() {
+    log("Démarrage sur le port " + port);
+    try (ServerSocket serverSocket = new ServerSocket(port)) {
+        while (true) {
+            Socket socket = serverSocket.accept(); // Bloquant
+            log("Nouvelle connexion: " + socket.getRemoteSocketAddress());
+            ClientHandler handler = new ClientHandler(this, socket);
+            handler.start();
+        }
+    } catch (IOException e) { e.printStackTrace(); }
+}</code></pre>
+</div>
+
+<div class="method">
+<div class="method-sig">public boolean isUserOnline(String username)</div>
+<div class="method-meta">
+<span class="tag tag-returns">boolean</span>
+<span class="tag tag-calledby">ClientHandler.handleLogin(), handleSend()</span>
+</div>
+<div class="method-desc">Vérifie si un utilisateur est actuellement connecté en cherchant son username dans <code>activeUsers</code>.</div>
+<div class="method-params">
+<div class="param-row"><span class="param-name">username</span><span class="param-type">String</span><span class="param-desc">Nom d'utilisateur à vérifier</span></div>
+</div>
+</div>
+
+<div class="method">
+<div class="method-sig">public boolean registerActive(String username, ClientHandler handler)</div>
+<div class="method-meta">
+<span class="tag tag-returns">boolean — true si enregistré, false si déjà présent</span>
+<span class="tag tag-calledby">ClientHandler.handleLogin()</span>
+</div>
+<div class="method-desc">Enregistre un utilisateur comme actif de manière atomique via <code>putIfAbsent()</code>. Garantit qu'un seul thread peut enregistrer un username donné (RG3).</div>
+</div>
+
+<div class="method">
+<div class="method-sig">public void unregister(String username)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">ClientHandler.cleanup()</span>
+</div>
+<div class="method-desc">Retire un utilisateur de la map des actifs lors de sa déconnexion.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">public void sendToUser(String username, String line)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">ClientHandler.handleSend()</span>
+</div>
+<div class="method-desc">Envoie une ligne de texte à un utilisateur spécifique en récupérant son <code>ClientHandler</code> dans <code>activeUsers</code> et en appelant <code>sendLine()</code>.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">public String onlineUsersCsv()</div>
+<div class="method-meta">
+<span class="tag tag-returns">String — "alice,bob,carol"</span>
+<span class="tag tag-calledby">ClientHandler.handleLine() (commande USERS)</span>
+</div>
+<div class="method-desc">Retourne la liste des usernames en ligne séparés par des virgules. Utilise les clés de <code>activeUsers</code>.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">public String allUsersCsv()</div>
+<div class="method-meta">
+<span class="tag tag-returns">String — "alice:ONLINE,bob:OFFLINE,carol:ONLINE"</span>
+<span class="tag tag-calledby">ClientHandler.handleLine() (ALL_USERS), handleLogin(), broadcastAllUsers()</span>
+</div>
+<div class="method-desc">Retourne TOUS les utilisateurs (online ET offline) avec leur statut. Interroge la DB via <code>userDAO.findAll()</code> et croise avec <code>activeUsers</code>. Nécessaire pour RG6 (écrire à quelqu'un d'offline).</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public String allUsersCsv() {
+    try {
+        List&lt;User&gt; all = userDAO.findAll();
+        return all.stream()
+            .map(u -> u.getUsername() + ":" +
+                 (activeUsers.containsKey(u.getUsername()) ? "ONLINE" : "OFFLINE"))
+            .collect(Collectors.joining(","));
+    } catch (Exception e) {
+        // Fallback si DB inaccessible
+        return activeUsers.keySet().stream()
+            .map(u -> u + ":ONLINE")
+            .collect(Collectors.joining(","));
+    }
+}</code></pre>
+</div>
+
+<div class="method">
+<div class="method-sig">public static void log(String message)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">start()</span>
+</div>
+<div class="method-desc">Journalise un message avec timestamp au format <code>[yyyy-MM-dd HH:mm:ss] [SERVER] message</code> (RG12).</div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ CLIENTHANDLER -->
+<section class="sec" id="sec-clienthandler">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Serveur</span><span class="sep">›</span><span>ClientHandler</span></div>
+<h1><span class="em">🔄</span>ClientHandler</h1>
+<p class="sub">Gestion d'un client dans un thread dédié — cœur du serveur</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/server/ClientHandler.java</code><br>
+<strong>Hérite de :</strong> <code>Thread</code> (RG11)</p>
+
+<h2>Attributs</h2>
+<table>
+<tr><th>Attribut</th><th>Type</th><th>Description</th></tr>
+<tr><td><code>server</code></td><td><code>ChatServer</code></td><td>Référence au serveur (pour accéder aux autres clients)</td></tr>
+<tr><td><code>socket</code></td><td><code>Socket</code></td><td>Connexion TCP avec ce client</td></tr>
+<tr><td><code>in</code></td><td><code>BufferedReader</code></td><td>Flux de lecture des messages du client</td></tr>
+<tr><td><code>out</code></td><td><code>PrintWriter</code></td><td>Flux d'écriture vers le client (autoFlush=true)</td></tr>
+<tr><td><code>username</code></td><td><code>String</code></td><td>Null si non authentifié, sinon le nom de l'utilisateur connecté</td></tr>
+<tr><td><code>userDAO</code></td><td><code>UserDAO</code></td><td>Accès aux données utilisateurs</td></tr>
+<tr><td><code>messageDAO</code></td><td><code>MessageDAO</code></td><td>Accès aux données messages</td></tr>
+<tr><td><code>FMT</code></td><td><code>DateTimeFormatter</code></td><td>Format des timestamps : <code>yyyy-MM-dd HH:mm:ss</code></td></tr>
+</table>
+
+<h2>Méthodes</h2>
+
+<div class="method">
+<div class="method-sig">@Override public void run()</div>
+<div class="method-meta">
+<span class="tag tag-file">ClientHandler.java</span>
+<span class="tag tag-calledby">handler.start() dans ChatServer</span>
+</div>
+<div class="method-desc">Boucle principale du thread. Initialise les flux I/O, lit les lignes du client en boucle et les traite. En cas d'exception (perte réseau), appelle <code>cleanup()</code> dans le bloc <code>finally</code>.</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">@Override
+public void run() {
+    try {
+        in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+        String line;
+        while ((line = in.readLine()) != null) {
+            handleLine(line);
+        }
+    } catch (Exception e) {
+        log("Perte connexion: " + (username != null ? username : socket.getRemoteSocketAddress())
+                + " – " + e.getMessage());
+    } finally {
+        cleanup(); // Toujours exécuté
+    }
+}</code></pre>
+</div>
+
+<div class="method">
+<div class="method-sig">public void sendLine(String line)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">handleRegister(), handleLogin(), handleSend(), handleHistory(), broadcastAllUsers(), ChatServer.sendToUser()</span>
+</div>
+<div class="method-desc">Envoie une ligne de texte au client via <code>PrintWriter.println()</code>. Le <code>PrintWriter</code> est créé avec <code>autoFlush=true</code>, donc chaque <code>println()</code> vide le buffer immédiatement.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void handleLine(String line)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">run()</span>
+<span class="tag tag-calls">handleRegister(), handleLogin(), handleLogout(), handleSend(), handleHistory()</span>
+</div>
+<div class="method-desc">Route la commande reçue vers le bon handler. Découpe la ligne sur <code>|</code> et utilise un switch expression Java 17.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void handleRegister(String[] parts)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">handleLine() — commande REGISTER</span>
+<span class="tag tag-calls">userDAO.findByUsername(), userDAO.save()</span>
+</div>
+<div class="method-desc">Gère l'inscription. Vérifie que le username n'existe pas déjà (RG1), crée un <code>User</code> avec statut OFFLINE et le sauvegarde en DB.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void handleLogin(String[] parts)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">handleLine() — commande LOGIN</span>
+<span class="tag tag-calls">userDAO.findByUsername(), server.isUserOnline(), server.registerActive(), userDAO.updateStatus(), messageDAO.getNonLus(), broadcastAllUsers()</span>
+</div>
+<div class="method-desc">Gère la connexion. Vérifie les credentials, applique RG3 (un seul login), met le statut ONLINE (RG4), envoie la liste ALL_USERS, livre les messages en attente (RG6), et broadcast la mise à jour.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void handleLogout()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">handleLine() — commande LOGOUT</span>
+<span class="tag tag-calls">sendLine("OK|LOGOUT"), cleanup()</span>
+</div>
+<div class="method-desc">Gère la déconnexion volontaire. Envoie la confirmation puis appelle <code>cleanup()</code>.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void handleSend(String[] parts)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">handleLine() — commande SEND</span>
+<span class="tag tag-calls">userDAO.findByUsername(), messageDAO.save(), server.isUserOnline(), server.sendToUser(), messageDAO.updateStatus()</span>
+</div>
+<div class="method-desc">Gère l'envoi d'un message. Vérifie l'authentification (RG2), valide le contenu (RG7), vérifie le destinataire (RG5), sauvegarde en DB, et livre en temps réel si le destinataire est en ligne (RG6).</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void handleHistory(String[] parts)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">handleLine() — commande HISTORY</span>
+<span class="tag tag-calls">userDAO.findByUsername(), messageDAO.getHistorique()</span>
+</div>
+<div class="method-desc">Retourne l'historique de conversation entre l'utilisateur connecté et un autre. Envoie <code>HISTORY_BEGIN|</code>, puis chaque message, puis <code>HISTORY_END|</code>. Les messages sont triés chronologiquement (RG8).</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void broadcastAllUsers()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">handleLogin(), cleanup()</span>
+<span class="tag tag-calls">server.allUsersCsv(), handler.sendLine() pour chaque client actif</span>
+</div>
+<div class="method-desc">Envoie la liste complète des utilisateurs (ALL_USERS) à tous les clients connectés. Appelé après une connexion ou déconnexion pour mettre à jour les listes de contacts.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void cleanup()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">run() (bloc finally), handleLogout()</span>
+<span class="tag tag-calls">userDAO.updateStatus(OFFLINE), server.unregister(), broadcastAllUsers(), socket.close()</span>
+</div>
+<div class="method-desc">Nettoyage à la déconnexion. Met le statut OFFLINE (RG4), retire l'utilisateur des actifs, broadcast la mise à jour, ferme le socket. Exécuté dans le bloc <code>finally</code> → garanti même en cas de perte réseau (RG10).</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void log(String message)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">handleRegister(), handleLogin(), handleLogout(), handleSend(), handleHistory(), cleanup(), run()</span>
+</div>
+<div class="method-desc">Journalise un message avec timestamp (RG12). Format : <code>[yyyy-MM-dd HH:mm:ss] [SERVER] message</code>.</div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ HELLOAPP -->
+<section class="sec" id="sec-helloapp">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Client</span><span class="sep">›</span><span>HelloApplication</span></div>
+<h1><span class="em">🚀</span>HelloApplication & Launcher</h1>
+<p class="sub">Points d'entrée de l'application JavaFX</p>
+
+<h2>Launcher.java</h2>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/Launcher.java</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public class Launcher {
+    public static void main(String[] args) {
+        Application.launch(HelloApplication.class, args);
+    }
+}</code></pre>
+<div class="note"><strong>Pourquoi Launcher ?</strong> JavaFX 17+ avec les modules Java nécessite que la classe principale n'étende pas directement <code>Application</code> pour éviter des erreurs de chargement de modules. <code>Launcher</code> est une classe ordinaire qui délègue à <code>HelloApplication</code>.</div>
+
+<h2>HelloApplication.java</h2>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/HelloApplication.java</code></p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public class HelloApplication extends Application {
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(
+            HelloApplication.class.getResource("login-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 400, 300);
+        // Charger le CSS global
+        String css = HelloApplication.class.getResource("styles.css").toExternalForm();
+        scene.getStylesheets().add(css);
+        stage.setTitle("Messagerie");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+}</code></pre>
+
+<div class="method">
+<div class="method-sig">@Override public void start(Stage stage)</div>
+<div class="method-meta">
+<span class="tag tag-file">HelloApplication.java</span>
+<span class="tag tag-calledby">JavaFX runtime (après Application.launch())</span>
+<span class="tag tag-calls">FXMLLoader.load(), scene.getStylesheets().add(), stage.setScene()</span>
+</div>
+<div class="method-desc">Point d'entrée JavaFX. Charge <code>login-view.fxml</code>, applique <code>styles.css</code>, configure et affiche la fenêtre principale (400×300, non redimensionnable).</div>
+</div>
+
+<p><strong>Ressources chargées :</strong></p>
+<ul>
+<li><code>login-view.fxml</code> — interface de connexion</li>
+<li><code>styles.css</code> — thème sombre WhatsApp</li>
+</ul>
+<p><strong>Utilisé par :</strong> <code>LoginController.openChatWindow()</code> et <code>ChatController.returnToLogin()</code> utilisent <code>HelloApplication.class.getResource()</code> pour charger les ressources.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ APPSESSION -->
+<section class="sec" id="sec-appsession">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Client</span><span class="sep">›</span><span>AppSession</span></div>
+<h1><span class="em">🔐</span>AppSession</h1>
+<p class="sub">Singleton statique — état de la session utilisateur</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/client/AppSession.java</code></p>
+
+<h2>Code complet</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public class AppSession {
+    private static String username;
+    private static ChatClient client;
+
+    public static String getUsername() { return username; }
+    public static void setUsername(String username) { AppSession.username = username; }
+    public static ChatClient getClient() { return client; }
+    public static void setClient(ChatClient client) { AppSession.client = client; }
+}</code></pre>
+
+<h2>Rôle</h2>
+<p><code>AppSession</code> est un <strong>singleton statique</strong> qui stocke l'état de la session courante. Il permet à <code>LoginController</code> et <code>ChatController</code> de partager le même <code>ChatClient</code> sans se passer de références directes.</p>
+
+<h2>Cycle de vie</h2>
+<div class="diagram">LoginController.onLogin()
+  └── AppSession.setClient(client)
+  └── AppSession.setUsername(username)
+      │
+      ▼
+ChatController.initialize()
+  └── AppSession.getClient() → utilise le même socket
+  └── AppSession.getUsername() → affiche le nom dans le titre
+      │
+      ▼
+ChatController.onLogout() ou handleDisconnect()
+  └── AppSession.setClient(null) → libère la référence</div>
+
+<h2>Méthodes</h2>
+<table>
+<tr><th>Méthode</th><th>Appelé par</th><th>Description</th></tr>
+<tr><td><code>getUsername()</code></td><td>ChatController (affichage), ClientHandler (envoi)</td><td>Retourne le username de l'utilisateur connecté</td></tr>
+<tr><td><code>setUsername(String)</code></td><td>LoginController.onLogin()</td><td>Définit le username après connexion réussie</td></tr>
+<tr><td><code>getClient()</code></td><td>ChatController.initialize(), onSend(), onRefreshUsers()</td><td>Retourne le ChatClient actif (null si déconnecté)</td></tr>
+<tr><td><code>setClient(ChatClient)</code></td><td>LoginController (set), ChatController.onLogout() (null)</td><td>Définit ou efface le client socket</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ CHATCLIENT -->
+<section class="sec" id="sec-chatclient">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Client</span><span class="sep">›</span><span>ChatClient</span></div>
+<h1><span class="em">🔌</span>ChatClient</h1>
+<p class="sub">Connexion socket TCP au serveur — lecture asynchrone</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/client/ChatClient.java</code></p>
+
+<h2>Interface Listener</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public interface Listener {
+    void onLineReceived(String line);   // Appelé pour chaque ligne reçue du serveur
+    void onDisconnected(Exception e);   // Appelé en cas de déconnexion (e=null si propre)
+}</code></pre>
+<p>Implémentée par :</p>
+<ul>
+<li><code>LoginController.LoginListener</code> — pendant la phase de connexion</li>
+<li><code>ChatController.ChatListener</code> — pendant la phase de chat</li>
+</ul>
+
+<h2>Attributs</h2>
+<table>
+<tr><th>Attribut</th><th>Type</th><th>Description</th></tr>
+<tr><td><code>host</code></td><td><code>String</code></td><td>Adresse du serveur ("localhost")</td></tr>
+<tr><td><code>port</code></td><td><code>int</code></td><td>Port du serveur (5000)</td></tr>
+<tr><td><code>socket</code></td><td><code>Socket</code></td><td>Connexion TCP</td></tr>
+<tr><td><code>in</code></td><td><code>BufferedReader</code></td><td>Flux de lecture des réponses serveur</td></tr>
+<tr><td><code>out</code></td><td><code>PrintWriter</code></td><td>Flux d'écriture des commandes</td></tr>
+<tr><td><code>readerThread</code></td><td><code>Thread</code></td><td>Thread daemon de lecture asynchrone</td></tr>
+<tr><td><code>listener</code></td><td><code>volatile Listener</code></td><td>Callback pour les événements réseau (<code>volatile</code> pour la visibilité entre threads)</td></tr>
+</table>
+
+<h2>Méthodes</h2>
+
+<div class="method">
+<div class="method-sig">public void connect(Listener listener) throws IOException</div>
+<div class="method-meta">
+<span class="tag tag-calledby">LoginController.onLogin(), LoginController.onRegister()</span>
+<span class="tag tag-throws">IOException si connexion impossible</span>
+</div>
+<div class="method-desc">Établit la connexion TCP et démarre le thread de lecture. Le thread est un <strong>daemon thread</strong> (s'arrête avec l'application). Appelle <code>listener.onLineReceived()</code> pour chaque ligne reçue, et <code>listener.onDisconnected()</code> en cas de fermeture.</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public void connect(Listener listener) throws IOException {
+    this.listener = listener;
+    socket = new Socket(host, port);
+    in  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+
+    readerThread = new Thread(() -> {
+        try {
+            String line;
+            while ((line = in.readLine()) != null) {
+                Listener l = this.listener;
+                if (l != null) l.onLineReceived(line);
+            }
+            Listener l = this.listener;
+            if (l != null) l.onDisconnected(null);
+        } catch (Exception e) {
+            Listener l = this.listener;
+            if (l != null) l.onDisconnected(e);
+        }
+    });
+    readerThread.setDaemon(true);
+    readerThread.start();
+}</code></pre>
+</div>
+
+<div class="method">
+<div class="method-sig">public void sendLine(String line)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">LoginController, ChatController</span>
+</div>
+<div class="method-desc">Envoie une commande au serveur. Utilise <code>PrintWriter.println()</code> qui ajoute <code>\n</code> et vide le buffer (autoFlush=true).</div>
+</div>
+
+<div class="method">
+<div class="method-sig">public void setListener(Listener listener)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">ChatController.initialize()</span>
+</div>
+<div class="method-desc">Change le listener après la connexion. Utilisé lors de la transition de <code>LoginController</code> vers <code>ChatController</code> : le même socket est réutilisé mais le handler change.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">public void close()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">ChatController.onLogout(), LoginController (après REGISTER)</span>
+</div>
+<div class="method-desc">Ferme le socket. Le thread de lecture détecte la fermeture et appelle <code>onDisconnected(null)</code>.</div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ LOGINCTRL -->
+<section class="sec" id="sec-loginctrl">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Client</span><span class="sep">›</span><span>LoginController</span></div>
+<h1><span class="em">🔑</span>LoginController</h1>
+<p class="sub">Contrôleur de l'écran de connexion/inscription</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/client/LoginController.java</code><br>
+<strong>FXML :</strong> <code>login-view.fxml</code></p>
+
+<h2>Champs FXML</h2>
+<table>
+<tr><th>Champ</th><th>Type JavaFX</th><th>Description</th></tr>
+<tr><td><code>usernameField</code></td><td><code>TextField</code></td><td>Champ de saisie du nom d'utilisateur</td></tr>
+<tr><td><code>passwordField</code></td><td><code>PasswordField</code></td><td>Champ de saisie du mot de passe (masqué)</td></tr>
+<tr><td><code>statusLabel</code></td><td><code>Label</code></td><td>Affichage des messages d'état et d'erreur</td></tr>
+</table>
+
+<h2>Constantes</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">private static final String HOST = "localhost";
+private static final int PORT = 5000;</code></pre>
+
+<h2>Méthodes</h2>
+
+<div class="method">
+<div class="method-sig">@FXML public void initialize()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">FXMLLoader (automatiquement après chargement du FXML)</span>
+</div>
+<div class="method-desc">Configure les raccourcis clavier : Entrée sur <code>usernameField</code> → focus sur <code>passwordField</code>. Entrée sur <code>passwordField</code> → appelle <code>onLogin()</code>.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">@FXML protected void onLogin()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">Bouton "Se connecter" (FXML), passwordField.onKeyPressed(ENTER)</span>
+<span class="tag tag-calls">PasswordUtil.sha256(), ChatClient.connect(), client.sendLine("LOGIN|...")</span>
+</div>
+<div class="method-desc">Valide les champs, hache le mot de passe (RG9), crée un <code>ChatClient</code>, se connecte au serveur et envoie la commande LOGIN. Stocke le client et le username dans <code>AppSession</code>.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">@FXML protected void onRegister()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">Bouton "S'inscrire" (FXML)</span>
+<span class="tag tag-calls">PasswordUtil.sha256(), ChatClient.connect(), client.sendLine("REGISTER|...")</span>
+</div>
+<div class="method-desc">Même logique que <code>onLogin()</code> mais envoie REGISTER. Après <code>OK|REGISTER</code>, ferme le socket après 200ms (pour laisser le temps de lire la réponse).</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void handleServerLine(String line)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">LoginListener.onLineReceived() via Platform.runLater()</span>
+<span class="tag tag-calls">openChatWindow() si OK|LOGIN</span>
+</div>
+<div class="method-desc">Traite les réponses du serveur. <code>OK|REGISTER</code> → message de succès. <code>OK|LOGIN</code> → ouvre la fenêtre de chat. <code>ERROR|...</code> → affiche l'erreur.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void openChatWindow()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">handleServerLine() après OK|LOGIN</span>
+<span class="tag tag-calls">FXMLLoader.load("chat-view.fxml"), stage.setScene()</span>
+</div>
+<div class="method-desc">Charge <code>chat-view.fxml</code> avec <code>styles.css</code>, crée une nouvelle <code>Scene</code> (900×600) et remplace la scène de login dans le <code>Stage</code> existant.</div>
+</div>
+
+<h2>Classe interne LoginListener</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">private class LoginListener implements ChatClient.Listener {
+    @Override
+    public void onLineReceived(String line) {
+        // Platform.runLater() : obligatoire pour modifier l'UI depuis un thread non-JavaFX
+        Platform.runLater(() -> handleServerLine(line));
+    }
+    @Override
+    public void onDisconnected(Exception e) {
+        Platform.runLater(() -> statusLabel.setText("⚠ Déconnecté du serveur"));
+    }
+}</code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ CHATCTRL -->
+<section class="sec" id="sec-chatctrl">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Client</span><span class="sep">›</span><span>ChatController</span></div>
+<h1><span class="em">💬</span>ChatController</h1>
+<p class="sub">Contrôleur principal de l'interface de messagerie</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/client/ChatController.java</code><br>
+<strong>FXML :</strong> <code>chat-view.fxml</code></p>
+
+<h2>Champs FXML</h2>
+<table>
+<tr><th>Champ</th><th>Type JavaFX</th><th>Description</th></tr>
+<tr><td><code>usersList</code></td><td><code>ListView&lt;String&gt;</code></td><td>Liste des contacts (format "alice [ONLINE]")</td></tr>
+<tr><td><code>chatWithLabel</code></td><td><code>Label</code></td><td>Header : "Conversation avec: Alice"</td></tr>
+<tr><td><code>messagesListView</code></td><td><code>ListView&lt;MessageItem&gt;</code></td><td>Zone d'affichage des messages (bulles)</td></tr>
+<tr><td><code>messageField</code></td><td><code>TextField</code></td><td>Champ de saisie du message</td></tr>
+<tr><td><code>statusLabel</code></td><td><code>Label</code></td><td>Barre de statut (erreurs, confirmations)</td></tr>
+</table>
+
+<h2>Attributs non-FXML</h2>
+<table>
+<tr><th>Attribut</th><th>Type</th><th>Description</th></tr>
+<tr><td><code>currentChatUser</code></td><td><code>String</code></td><td>Username du contact sélectionné</td></tr>
+<tr><td><code>messages</code></td><td><code>ObservableList&lt;MessageItem&gt;</code></td><td>Liste observable liée à <code>messagesListView</code></td></tr>
+<tr><td><code>inHistory</code></td><td><code>boolean</code></td><td>Flag : en cours de réception d'historique</td></tr>
+<tr><td><code>historyBuffer</code></td><td><code>List&lt;MessageItem&gt;</code></td><td>Buffer temporaire pour l'historique</td></tr>
+</table>
+
+<h2>Méthodes</h2>
+
+<div class="method">
+<div class="method-sig">@FXML public void initialize()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">FXMLLoader (automatiquement)</span>
+<span class="tag tag-calls">messagesListView.setItems(), setCellFactory(), client.sendLine("ALL_USERS|")</span>
+</div>
+<div class="method-desc">Initialise la ListView avec <code>MessageCell</code>, configure le listener de sélection des contacts, le raccourci Entrée, et demande la liste ALL_USERS au serveur.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private String extractUsername(String item)</div>
+<div class="method-meta">
+<span class="tag tag-returns">String — username sans le statut</span>
+<span class="tag tag-calledby">initialize() (listener), handleServerLine() (ALL_USERS)</span>
+</div>
+<div class="method-desc">Extrait le username depuis une entrée de la liste. Exemple : <code>"alice [ONLINE]"</code> → <code>"alice"</code>. Cherche le dernier <code>" ["</code> et coupe avant.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">@FXML protected void onRefreshUsers()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">Bouton "⟳ Rafraîchir" (FXML)</span>
+<span class="tag tag-calls">client.sendLine("ALL_USERS|")</span>
+</div>
+<div class="method-desc">Demande la liste complète des utilisateurs au serveur.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">@FXML protected void onSend()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">Bouton "Envoyer" (FXML), messageField.onKeyPressed(ENTER)</span>
+<span class="tag tag-calls">client.sendLine("SEND|..."), addMessage()</span>
+</div>
+<div class="method-desc">Valide le message (RG7), l'envoie au serveur, l'affiche immédiatement comme bulle droite (isMine=true), et vide le champ de saisie.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">@FXML protected void onLogout()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">Bouton "⏻ Déconnexion" (FXML)</span>
+<span class="tag tag-calls">client.sendLine("LOGOUT|"), client.close(), AppSession.setClient(null), returnToLogin()</span>
+</div>
+<div class="method-desc">Déconnexion volontaire. Envoie LOGOUT, ferme le socket, efface la session et retourne à l'écran de login.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void requestHistory()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">initialize() (listener de sélection)</span>
+<span class="tag tag-calls">client.sendLine("HISTORY|" + currentChatUser)</span>
+</div>
+<div class="method-desc">Demande l'historique de conversation avec le contact sélectionné.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void handleDisconnect(Exception e)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">ChatListener.onDisconnected() via Platform.runLater()</span>
+<span class="tag tag-calls">Alert.showAndWait(), returnToLogin()</span>
+</div>
+<div class="method-desc">RG10 : affiche une alerte JavaFX et retourne à l'écran de login en cas de perte de connexion.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void returnToLogin()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">onLogout(), handleDisconnect()</span>
+<span class="tag tag-calls">FXMLLoader.load("login-view.fxml"), stage.setScene()</span>
+</div>
+<div class="method-desc">Charge <code>login-view.fxml</code> et remplace la scène courante. Récupère le <code>Stage</code> depuis <code>messagesListView.getScene().getWindow()</code>.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void handleServerLine(String line)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">ChatListener.onLineReceived() via Platform.runLater()</span>
+</div>
+<div class="method-desc">Route les réponses du serveur. Gère : ALL_USERS, USERS, MSG, HISTORY_BEGIN, HISTORY, HISTORY_END, ERROR, OK|SEND.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void addMessage(String content, boolean isMine, String ts)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">onSend(), handleServerLine() (MSG, HISTORY_END)</span>
+<span class="tag tag-calls">messages.add(), scrollToBottom()</span>
+</div>
+<div class="method-desc">Ajoute un <code>MessageItem</code> à la liste observable et fait défiler vers le bas.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private void scrollToBottom()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">addMessage()</span>
+<span class="tag tag-calls">messagesListView.scrollTo(messages.size() - 1)</span>
+</div>
+<div class="method-desc">Fait défiler la ListView vers le dernier message.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private String formatTimestamp(String raw)</div>
+<div class="method-meta">
+<span class="tag tag-returns">String — "HH:mm"</span>
+<span class="tag tag-calledby">handleServerLine() (MSG, HISTORY)</span>
+</div>
+<div class="method-desc">Formate un timestamp <code>LocalDateTime.toString()</code> (ex: "2026-02-28T10:30:00.123") en "HH:mm".</div>
+</div>
+
+<div class="method">
+<div class="method-sig">private String nowTime()</div>
+<div class="method-meta">
+<span class="tag tag-returns">String — "HH:mm" de l'heure courante</span>
+<span class="tag tag-calledby">onSend(), handleServerLine() (MSG sans timestamp)</span>
+</div>
+<div class="method-desc">Retourne l'heure courante formatée en "HH:mm" via <code>LocalTime.now()</code>.</div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ MSGITEM -->
+<section class="sec" id="sec-msgitem">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Client</span><span class="sep">›</span><span>MessageItem</span></div>
+<h1><span class="em">📝</span>MessageItem</h1>
+<p class="sub">DTO pour les messages affichés dans la ListView</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/client/MessageItem.java</code></p>
+
+<h2>Code complet</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public class MessageItem {
+    private final String content;   // Texte du message
+    private final boolean isMine;   // true = envoyé par moi, false = reçu
+    private final String timestamp; // Heure "HH:mm"
+
+    public MessageItem(String content, boolean isMine, String timestamp) {
+        this.content = content;
+        this.isMine = isMine;
+        this.timestamp = timestamp == null ? "" : timestamp;
+    }
+
+    public String getContent()   { return content; }
+    public boolean isMine()      { return isMine; }
+    public String getTimestamp() { return timestamp; }
+}</code></pre>
+
+<h2>Rôle</h2>
+<p><code>MessageItem</code> est un <strong>DTO (Data Transfer Object)</strong> immuable qui représente un message dans la <code>ListView</code>. Il ne contient que les informations nécessaires à l'affichage :</p>
+<ul>
+<li><code>content</code> : le texte à afficher</li>
+<li><code>isMine</code> : détermine la position (droite/gauche) et la couleur de la bulle</li>
+<li><code>timestamp</code> : l'heure affichée sous le message</li>
+</ul>
+
+<h2>Création</h2>
+<table>
+<tr><th>Contexte</th><th>isMine</th><th>Appelé par</th></tr>
+<tr><td>Message envoyé par moi</td><td><code>true</code></td><td><code>ChatController.onSend()</code></td></tr>
+<tr><td>Message reçu en temps réel</td><td><code>false</code></td><td><code>ChatController.handleServerLine()</code> (MSG)</td></tr>
+<tr><td>Historique — mes messages</td><td><code>true</code></td><td><code>ChatController.handleServerLine()</code> (HISTORY)</td></tr>
+<tr><td>Historique — messages reçus</td><td><code>false</code></td><td><code>ChatController.handleServerLine()</code> (HISTORY)</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ MSGCELL -->
+<section class="sec" id="sec-msgcell">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Client</span><span class="sep">›</span><span>MessageCell</span></div>
+<h1><span class="em">🫧</span>MessageCell</h1>
+<p class="sub">Cellule personnalisée ListView — bulles de messages style WhatsApp</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/client/MessageCell.java</code><br>
+<strong>Hérite de :</strong> <code>ListCell&lt;MessageItem&gt;</code></p>
+
+<h2>Aperçu visuel</h2>
+<div style="background:#0B141A;border-radius:12px;padding:20px;margin:14px 0;border:1px solid #2A3942">
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:flex-start"><div style="background:#1F2C34;color:#E9EDEF;padding:10px 14px;border-radius:0 12px 12px 12px;max-width:60%;font-size:14px">Salut, comment ça va ?<div style="font-size:11px;color:#8696A0;text-align:right;margin-top:4px">10:30</div></div></div>
+<div style="display:flex;justify-content:flex-end"><div style="background:#005C4B;color:#E9EDEF;padding:10px 14px;border-radius:12px 0 12px 12px;max-width:60%;font-size:14px">Très bien merci !<div style="font-size:11px;color:#8696A0;text-align:right;margin-top:4px">10:31</div></div></div>
+</div>
+</div>
+
+<h2>Structure d'une bulle</h2>
+<div class="diagram">HBox (row) — alignement LEFT ou RIGHT
+└── VBox (bubble) — fond coloré, coins arrondis
+    ├── Label (msgLabel) — texte du message
+    └── Label (tsLabel)  — heure "HH:mm"</div>
+
+<h2>Méthode updateItem()</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">@Override
+protected void updateItem(MessageItem item, boolean empty) {
+    super.updateItem(item, empty); // Toujours appeler super !
+    setStyle("-fx-background-color: transparent; -fx-padding: 2 12;");
+
+    if (empty || item == null) { setGraphic(null); setText(null); return; }
+
+    // Texte du message
+    Label msgLabel = new Label(item.getContent());
+    msgLabel.setWrapText(true);
+    msgLabel.setMaxWidth(420);
+    msgLabel.setStyle("-fx-text-fill: #E9EDEF; -fx-font-size: 13px;");
+
+    // Heure
+    Label tsLabel = new Label(item.getTimestamp());
+    tsLabel.setStyle("-fx-text-fill: #8696A0; -fx-font-size: 10px;");
+
+    // Bulle
+    VBox bubble = new VBox(2, msgLabel, tsLabel);
+    bubble.setPadding(new Insets(7, 12, 7, 12));
+
+    if (item.isMine()) {
+        // Envoyé : vert, droite, coin haut-droit carré
+        bubble.setStyle("-fx-background-color: #005C4B; " +
+                        "-fx-background-radius: 12 0 12 12;");
+        HBox row = new HBox(bubble);
+        row.setAlignment(Pos.CENTER_RIGHT);
+        setGraphic(row);
+    } else {
+        // Reçu : gris, gauche, coin haut-gauche carré
+        bubble.setStyle("-fx-background-color: #1F2C34; " +
+                        "-fx-background-radius: 0 12 12 12;");
+        HBox row = new HBox(bubble);
+        row.setAlignment(Pos.CENTER_LEFT);
+        setGraphic(row);
+    }
+    setText(null); // Important : ne pas utiliser setText() avec setGraphic()
+}</code></pre>
+
+<h2>Coins arrondis</h2>
+<table>
+<tr><th>Type</th><th>background-radius</th><th>Signification</th></tr>
+<tr><td>Envoyé (droite)</td><td><code>12 0 12 12</code></td><td>haut-gauche=12, haut-droit=0 (pointe), bas-droit=12, bas-gauche=12</td></tr>
+<tr><td>Reçu (gauche)</td><td><code>0 12 12 12</code></td><td>haut-gauche=0 (pointe), haut-droit=12, bas-droit=12, bas-gauche=12</td></tr>
+</table>
+
+<h2>Intégration dans ChatController</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// Dans ChatController.initialize()
+messagesListView.setItems(messages); // ObservableList&lt;MessageItem&gt;
+messagesListView.setCellFactory(lv -> new MessageCell());
+// Chaque fois qu'un MessageItem est ajouté à messages,
+// JavaFX appelle automatiquement updateItem() pour créer la bulle</code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ USERDAO -->
+<section class="sec" id="sec-userdao">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Persistance</span><span class="sep">›</span><span>UserDAO</span></div>
+<h1><span class="em">👤</span>UserDAO</h1>
+<p class="sub">Accès aux données utilisateurs — CRUD via Hibernate</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/dao/UserDAO.java</code></p>
+
+<h2>Méthodes</h2>
+
+<div class="method">
+<div class="method-sig">public User findByUsername(String username)</div>
+<div class="method-meta">
+<span class="tag tag-returns">User ou null si non trouvé</span>
+<span class="tag tag-calledby">ClientHandler.handleRegister(), handleLogin(), handleSend(), handleHistory()</span>
+</div>
+<div class="method-desc">Recherche un utilisateur par son username via une requête HQL. Utilise <code>uniqueResult()</code> qui retourne null si aucun résultat.</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public User findByUsername(String username) {
+    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        return session.createQuery(
+            "from User u where u.username = :username", User.class)
+            .setParameter("username", username)
+            .uniqueResult();
+    }
+}
+// SQL généré : SELECT * FROM users WHERE username = ?</code></pre>
+</div>
+
+<div class="method">
+<div class="method-sig">public User findById(Long id)</div>
+<div class="method-meta">
+<span class="tag tag-returns">User ou null</span>
+</div>
+<div class="method-desc">Recherche un utilisateur par son ID via <code>session.get()</code>.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">public void save(User user)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">ClientHandler.handleRegister()</span>
+<span class="tag tag-throws">RuntimeException si contrainte violée (username dupliqué)</span>
+</div>
+<div class="method-desc">Persiste un nouvel utilisateur en DB. Utilise une transaction explicite avec rollback en cas d'erreur.</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public void save(User user) {
+    Transaction transaction = null;
+    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        transaction = session.beginTransaction();
+        session.persist(user); // INSERT INTO users (...)
+        transaction.commit();
+    } catch (Exception e) {
+        if (transaction != null) transaction.rollback();
+        throw e; // Relance pour que l'appelant gère l'erreur
+    }
+}</code></pre>
+</div>
+
+<div class="method">
+<div class="method-sig">public void updateStatus(String username, UserStatus status)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">ClientHandler.handleLogin() (ONLINE), ClientHandler.cleanup() (OFFLINE)</span>
+</div>
+<div class="method-desc">Met à jour le statut ONLINE/OFFLINE d'un utilisateur (RG4). Charge l'entité, modifie le champ, et utilise <code>session.merge()</code> pour la mise à jour.</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// SQL généré : UPDATE users SET status = ? WHERE id = ?</code></pre>
+</div>
+
+<div class="method">
+<div class="method-sig">public List&lt;User&gt; findOnlineUsers()</div>
+<div class="method-meta">
+<span class="tag tag-returns">List&lt;User&gt; triée par username</span>
+</div>
+<div class="method-desc">Retourne les utilisateurs avec statut ONLINE. Non utilisé directement (préférer <code>ChatServer.onlineUsersCsv()</code>).</div>
+</div>
+
+<div class="method">
+<div class="method-sig">public List&lt;User&gt; findAll()</div>
+<div class="method-meta">
+<span class="tag tag-returns">List&lt;User&gt; triée par username</span>
+<span class="tag tag-calledby">ChatServer.allUsersCsv()</span>
+</div>
+<div class="method-desc">Retourne tous les utilisateurs triés alphabétiquement. Utilisé pour construire la liste ALL_USERS (online + offline).</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// SQL généré : SELECT * FROM users ORDER BY username ASC</code></pre>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ MSGDAO -->
+<section class="sec" id="sec-msgdao">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Persistance</span><span class="sep">›</span><span>MessageDAO</span></div>
+<h1><span class="em">✉️</span>MessageDAO</h1>
+<p class="sub">Accès aux données messages — CRUD via Hibernate</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/dao/MessageDAO.java</code></p>
+
+<h2>Méthodes</h2>
+
+<div class="method">
+<div class="method-sig">public void save(Message message)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">ClientHandler.handleSend()</span>
+</div>
+<div class="method-desc">Persiste un nouveau message en DB avec statut ENVOYE. Transaction avec rollback en cas d'erreur.</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// SQL généré :
+// INSERT INTO messages (sender_id, receiver_id, contenu, date_envoi, statut)
+// VALUES (?, ?, ?, ?, 'ENVOYE')</code></pre>
+</div>
+
+<div class="method">
+<div class="method-sig">public List&lt;Message&gt; getHistorique(User u1, User u2)</div>
+<div class="method-meta">
+<span class="tag tag-returns">List&lt;Message&gt; triée par dateEnvoi ASC</span>
+<span class="tag tag-calledby">ClientHandler.handleHistory()</span>
+</div>
+<div class="method-desc">Retourne l'historique complet de la conversation entre deux utilisateurs, dans les deux sens (u1→u2 ET u2→u1), trié chronologiquement (RG8).</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public List&lt;Message&gt; getHistorique(User u1, User u2) {
+    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        return session.createQuery(
+            "from Message m where " +
+            "(m.sender = :u1 and m.receiver = :u2) or " +
+            "(m.sender = :u2 and m.receiver = :u1) " +
+            "order by m.dateEnvoi asc",
+            Message.class)
+            .setParameter("u1", u1)
+            .setParameter("u2", u2)
+            .list();
+    }
+}
+// SQL généré :
+// SELECT m.* FROM messages m
+// WHERE (m.sender_id = ? AND m.receiver_id = ?)
+//    OR (m.sender_id = ? AND m.receiver_id = ?)
+// ORDER BY m.date_envoi ASC</code></pre>
+</div>
+
+<div class="method">
+<div class="method-sig">public List&lt;Message&gt; getNonLus(User receiver)</div>
+<div class="method-meta">
+<span class="tag tag-returns">List&lt;Message&gt; avec statut ENVOYE ou RECU</span>
+<span class="tag tag-calledby">ClientHandler.handleLogin() — livraison des messages en attente (RG6)</span>
+</div>
+<div class="method-desc">Retourne les messages non lus d'un utilisateur (statut ≠ LU), triés chronologiquement. Utilisé lors de la reconnexion pour livrer les messages en attente.</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public List&lt;Message&gt; getNonLus(User receiver) {
+    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        return session.createQuery(
+            "from Message m where m.receiver = :receiver " +
+            "and m.statut &lt;&gt; :lu " +
+            "order by m.dateEnvoi asc",
+            Message.class)
+            .setParameter("receiver", receiver)
+            .setParameter("lu", MessageStatus.LU)
+            .list();
+    }
+}
+// SQL généré :
+// SELECT m.* FROM messages m
+// WHERE m.receiver_id = ? AND m.statut != 'LU'
+// ORDER BY m.date_envoi ASC</code></pre>
+</div>
+
+<div class="method">
+<div class="method-sig">public void updateStatus(Long messageId, MessageStatus status)</div>
+<div class="method-meta">
+<span class="tag tag-calledby">ClientHandler.handleSend() (RECU), ClientHandler.handleLogin() (LU)</span>
+</div>
+<div class="method-desc">Met à jour le statut d'un message. Charge l'entité par ID, modifie le statut, et utilise <code>session.merge()</code>.</div>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// SQL généré : UPDATE messages SET statut = ? WHERE id = ?</code></pre>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ HIBERNATE -->
+<section class="sec" id="sec-hibernate">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Utilitaires</span><span class="sep">›</span><span>HibernateUtil</span></div>
+<h1><span class="em">🔗</span>HibernateUtil</h1>
+<p class="sub">Singleton de la SessionFactory Hibernate</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/utils/HibernateUtil.java</code></p>
+
+<h2>Code complet</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public class HibernateUtil {
+    private static SessionFactory sessionFactory;
+
+    public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            synchronized (HibernateUtil.class) {
+                if (sessionFactory == null) {
+                    try {
+                        URL cfg = HibernateUtil.class.getClassLoader()
+                                      .getResource("hibernate.cfg.xml");
+                        System.out.println("[HIBERNATE] Config: " + cfg);
+                        sessionFactory = new Configuration()
+                                            .configure("hibernate.cfg.xml")
+                                            .buildSessionFactory();
+                    } catch (Throwable ex) {
+                        System.err.println("SessionFactory failed: " + ex.getMessage());
+                        throw ex;
+                    }
+                }
+            }
+        }
+        return sessionFactory;
+    }
+
+    public static void shutdown() {
+        try {
+            if (sessionFactory != null) {
+                sessionFactory.close();
+                sessionFactory = null;
+            }
+        } catch (Exception ignored) {}
+    }
+}</code></pre>
+
+<h2>Méthodes</h2>
+
+<div class="method">
+<div class="method-sig">public static SessionFactory getSessionFactory()</div>
+<div class="method-meta">
+<span class="tag tag-returns">SessionFactory — instance unique</span>
+<span class="tag tag-calledby">UserDAO (toutes méthodes), MessageDAO (toutes méthodes)</span>
+<span class="tag tag-throws">ExceptionInInitializerError si hibernate.cfg.xml manquant ou DB inaccessible</span>
+</div>
+<div class="method-desc">Retourne la <code>SessionFactory</code> unique. Utilise le pattern <strong>double-checked locking</strong> pour garantir la thread-safety et l'initialisation unique. La <code>SessionFactory</code> est créée en lisant <code>hibernate.cfg.xml</code> depuis le classpath.</div>
+</div>
+
+<div class="method">
+<div class="method-sig">public static void shutdown()</div>
+<div class="method-meta">
+<span class="tag tag-calledby">Non appelé dans le code actuel (à appeler à l'arrêt de l'application)</span>
+</div>
+<div class="method-desc">Ferme la <code>SessionFactory</code> et libère les ressources (pool de connexions).</div>
+</div>
+
+<h2>Double-checked locking expliqué</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">if (sessionFactory == null) {          // 1ère vérification (rapide, sans lock)
+    synchronized (HibernateUtil.class) { // Lock uniquement si null
+        if (sessionFactory == null) {    // 2ème vérification (sous lock)
+            sessionFactory = new Configuration().configure().buildSessionFactory();
+        }
+    }
+}</code></pre>
+<p>Sans le double-check, deux threads pourraient créer deux <code>SessionFactory</code> simultanément. Le <code>synchronized</code> seul serait trop lent (lock à chaque appel).</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ PASSWORD -->
+<section class="sec" id="sec-password">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Utilitaires</span><span class="sep">›</span><span>PasswordUtil</span></div>
+<h1><span class="em">🔒</span>PasswordUtil</h1>
+<p class="sub">Hachage SHA-256 des mots de passe (RG9)</p>
+<p><strong>Fichier :</strong> <code>src/main/java/com/example/whatsapp_java/utils/PasswordUtil.java</code></p>
+
+<h2>Code complet</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">public class PasswordUtil {
+    public static String sha256(String input) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0'); // Padding zéro
+                hexString.append(hex);
+            }
+            return hexString.toString(); // 64 caractères hexadécimaux
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+}</code></pre>
+
+<div class="method">
+<div class="method-sig">public static String sha256(String input)</div>
+<div class="method-meta">
+<span class="tag tag-returns">String — 64 caractères hexadécimaux</span>
+<span class="tag tag-calledby">LoginController.onLogin(), LoginController.onRegister()</span>
+<span class="tag tag-throws">RuntimeException si SHA-256 non disponible (impossible en pratique)</span>
+</div>
+<div class="method-desc">Calcule le hash SHA-256 d'une chaîne en UTF-8 et retourne le résultat en hexadécimal. Exemple : <code>"password"</code> → <code>"5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"</code></div>
+<div class="method-params">
+<div class="param-row"><span class="param-name">input</span><span class="param-type">String</span><span class="param-desc">Mot de passe en clair</span></div>
+</div>
+</div>
+
+<h2>Flux de sécurité complet</h2>
+<div class="diagram">Utilisateur saisit "monMotDePasse"
+         │
+         ▼ LoginController.onLogin()
+sha256("monMotDePasse") → "a665a459..."
+         │
+         ▼ Envoyé sur le réseau TCP
+"LOGIN|alice|a665a459..."
+         │
+         ▼ ClientHandler.handleLogin()
+user.getPassword().equals("a665a459...") → true/false
+         │
+         ▼ Stocké en DB
+users.password = "a665a459..."  (jamais le mot de passe en clair)</div>
+
+<div class="warn"><strong>⚠️ Note de sécurité :</strong> SHA-256 sans sel est vulnérable aux attaques par dictionnaire (rainbow tables). En production, utiliser <strong>BCrypt</strong> ou <strong>Argon2</strong> qui ajoutent un sel aléatoire. Pour un projet académique, SHA-256 est acceptable.</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ FXML -->
+<section class="sec" id="sec-fxml">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Interface</span><span class="sep">›</span><span>FXML & CSS</span></div>
+<h1><span class="em">🖼️</span>FXML & CSS</h1>
+<p class="sub">Fichiers d'interface — structure et styles</p>
+
+<h2>login-view.fxml</h2>
+<p><strong>Fichier :</strong> <code>src/main/resources/com/example/whatsapp_java/login-view.fxml</code><br>
+<strong>Contrôleur :</strong> <code>LoginController</code><br>
+<strong>Taille :</strong> 400×300</p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-xml">&lt;StackPane xmlns="http://javafx.com/javafx/21"
+           fx:controller="com.example.whatsapp_java.client.LoginController"
+           style="-fx-background-color: #0B141A;"&gt;
+  &lt;VBox spacing="16" alignment="CENTER" maxWidth="320" styleClass="login-container"&gt;
+    &lt;Label text="💬 Messagerie" styleClass="title-label" /&gt;
+    &lt;Label text="Connectez-vous pour continuer" styleClass="subtitle-label" /&gt;
+    &lt;TextField fx:id="usernameField" promptText="Nom d'utilisateur" /&gt;
+    &lt;PasswordField fx:id="passwordField" promptText="Mot de passe" /&gt;
+    &lt;HBox spacing="10" alignment="CENTER"&gt;
+      &lt;Button text="S'inscrire" onAction="#onRegister" styleClass="button-secondary" /&gt;
+      &lt;Button text="Se connecter" onAction="#onLogin" /&gt;
+    &lt;/HBox&gt;
+    &lt;Label fx:id="statusLabel" styleClass="status-label" /&gt;
+  &lt;/VBox&gt;
+&lt;/StackPane&gt;</code></pre>
+
+<h2>chat-view.fxml</h2>
+<p><strong>Fichier :</strong> <code>src/main/resources/com/example/whatsapp_java/chat-view.fxml</code><br>
+<strong>Contrôleur :</strong> <code>ChatController</code><br>
+<strong>Taille :</strong> 900×600</p>
+<p>Structure : <code>BorderPane</code> avec sidebar à gauche (<code>VBox</code> 240px) et zone de chat au centre (<code>VBox</code>).</p>
+<table>
+<tr><th>Composant</th><th>fx:id</th><th>Type</th><th>Description</th></tr>
+<tr><td>Liste contacts</td><td><code>usersList</code></td><td><code>ListView&lt;String&gt;</code></td><td>Sidebar gauche</td></tr>
+<tr><td>Header conversation</td><td><code>chatWithLabel</code></td><td><code>Label</code></td><td>Nom du contact sélectionné</td></tr>
+<tr><td>Zone messages</td><td><code>messagesListView</code></td><td><code>ListView&lt;MessageItem&gt;</code></td><td>Bulles de messages</td></tr>
+<tr><td>Champ de saisie</td><td><code>messageField</code></td><td><code>TextField</code></td><td>Barre de saisie</td></tr>
+<tr><td>Statut</td><td><code>statusLabel</code></td><td><code>Label</code></td><td>Messages d'état</td></tr>
+</table>
+
+<h2>styles.css — Palette de couleurs</h2>
+<p><strong>Fichier :</strong> <code>src/main/resources/com/example/whatsapp_java/styles.css</code></p>
+<table>
+<tr><th>Variable CSS</th><th>Valeur</th><th>Utilisation</th></tr>
+<tr><td>Fond principal</td><td><code>#0B141A</code></td><td>Fond de la fenêtre de chat</td></tr>
+<tr><td>Fond sidebar</td><td><code>#111B21</code></td><td>Sidebar des contacts</td></tr>
+<tr><td>Fond header</td><td><code>#202C33</code></td><td>Header, barre de saisie</td></tr>
+<tr><td>Fond carte</td><td><code>#1F2C34</code></td><td>Bulles reçues, champs de saisie</td></tr>
+<tr><td>Accent vert</td><td><code>#00A884</code></td><td>Boutons, liens, indicateurs</td></tr>
+<tr><td>Vert foncé</td><td><code>#005C4B</code></td><td>Bulles envoyées</td></tr>
+<tr><td>Texte principal</td><td><code>#E9EDEF</code></td><td>Texte des messages</td></tr>
+<tr><td>Texte secondaire</td><td><code>#8696A0</code></td><td>Timestamps, placeholders</td></tr>
+<tr><td>Bordure</td><td><code>#2A3942</code></td><td>Séparateurs, bordures</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ JAVAFX CONCEPTS -->
+<section class="sec" id="sec-javafx">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Interface</span><span class="sep">›</span><span>Concepts JavaFX</span></div>
+<h1><span class="em">☕</span>Concepts JavaFX</h1>
+<p class="sub">Explications des concepts JavaFX utilisés dans le projet</p>
+
+<h2>Platform.runLater()</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">Platform.runLater(() -> handleServerLine(line));</code></pre>
+<p><strong>Problème :</strong> JavaFX n'est pas thread-safe. L'interface graphique ne peut être modifiée que depuis le <strong>JavaFX Application Thread</strong>. Le thread de lecture du <code>ChatClient</code> est un thread séparé.</p>
+<p><strong>Solution :</strong> <code>Platform.runLater(Runnable)</code> soumet une tâche à exécuter sur le JavaFX Application Thread lors de sa prochaine itération.</p>
+<div class="warn"><strong>⚠️ Règle :</strong> Toute modification de l'UI (setText, getItems().add, etc.) depuis un thread non-JavaFX DOIT passer par <code>Platform.runLater()</code>.</div>
+
+<h2>ObservableList</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">private final ObservableList&lt;MessageItem&gt; messages = FXCollections.observableArrayList();
+messagesListView.setItems(messages);
+// Maintenant, chaque messages.add() met à jour automatiquement la ListView</code></pre>
+<p><code>ObservableList</code> est une liste qui notifie ses observateurs (ici la <code>ListView</code>) à chaque modification. Pas besoin de rafraîchir manuellement l'interface.</p>
+
+<h2>ListView et setCellFactory</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">messagesListView.setCellFactory(lv -> new MessageCell());
+// Pour chaque élément visible, JavaFX appelle MessageCell.updateItem()</code></pre>
+<p><code>setCellFactory</code> permet de personnaliser le rendu de chaque cellule. JavaFX réutilise les cellules (virtualisation) pour les performances.</p>
+
+<h2>FXMLLoader</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("chat-view.fxml"));
+Scene scene = new Scene(loader.load(), 900, 600);
+// loader.load() :
+// 1. Parse le FXML
+// 2. Instancie les composants (ListView, Label, etc.)
+// 3. Instancie le contrôleur (ChatController)
+// 4. Injecte les @FXML fields
+// 5. Appelle initialize()</code></pre>
+
+<h2>@FXML</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">@FXML private ListView&lt;String&gt; usersList;
+// FXMLLoader injecte automatiquement le composant dont fx:id="usersList"
+// dans le FXML correspondant</code></pre>
+
+<h2>Stage, Scene, Node</h2>
+<table>
+<tr><th>Concept</th><th>Description</th></tr>
+<tr><td><code>Stage</code></td><td>La fenêtre OS (titre, taille, icône)</td></tr>
+<tr><td><code>Scene</code></td><td>Le contenu de la fenêtre (arbre de composants)</td></tr>
+<tr><td><code>Node</code></td><td>Tout composant JavaFX (Label, Button, ListView...)</td></tr>
+</table>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// Récupérer le Stage depuis n'importe quel composant
+Stage stage = (Stage) anyNode.getScene().getWindow();
+stage.setScene(newScene); // Changer la scène sans fermer la fenêtre</code></pre>
+
+<h2>ChangeListener</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">usersList.getSelectionModel().selectedItemProperty()
+    .addListener((observable, oldValue, newValue) -> {
+        // Appelé chaque fois que la sélection change
+        if (newValue != null) {
+            currentChatUser = extractUsername(newValue);
+            requestHistory();
+        }
+    });</code></pre>
+
+<h2>KeyEvent</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">messageField.setOnKeyPressed(event -> {
+    if (event.getCode() == KeyCode.ENTER) {
+        onSend(); // Envoyer avec Entrée
+    }
+});</code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ HIBERNATE CONCEPTS -->
+<section class="sec" id="sec-hibernate_concepts">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Concepts</span><span class="sep">›</span><span>Hibernate/JPA</span></div>
+<h1><span class="em">🐘</span>Concepts Hibernate/JPA</h1>
+<p class="sub">Explications des concepts Hibernate utilisés dans le projet</p>
+
+<h2>SessionFactory</h2>
+<p>La <code>SessionFactory</code> est l'objet central d'Hibernate. Elle est créée une seule fois au démarrage (coûteux) et réutilisée pour créer des <code>Session</code>.</p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// Création (une seule fois)
+SessionFactory sf = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+// Utilisation
+try (Session session = sf.openSession()) { ... }</code></pre>
+
+<h2>Session</h2>
+<p>Une <code>Session</code> représente une connexion à la DB. Elle est légère et doit être ouverte/fermée pour chaque opération (pattern try-with-resources).</p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+    // La session est automatiquement fermée à la fin du bloc
+    User user = session.get(User.class, 1L);
+}</code></pre>
+
+<h2>Transaction</h2>
+<p>Les opérations d'écriture (INSERT, UPDATE, DELETE) nécessitent une transaction explicite.</p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">Transaction tx = null;
+try (Session session = sf.openSession()) {
+    tx = session.beginTransaction();
+    session.persist(entity);  // INSERT
+    tx.commit();              // Valider
+} catch (Exception e) {
+    if (tx != null) tx.rollback(); // Annuler en cas d'erreur
+    throw e;
+}</code></pre>
+
+<h2>HQL (Hibernate Query Language)</h2>
+<p>HQL est similaire à SQL mais utilise les noms de classes et d'attributs Java (pas les noms de tables/colonnes).</p>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// HQL (utilise le nom de classe Java "User", pas "users")
+"from User u where u.username = :username"
+// SQL généré : SELECT * FROM users WHERE username = ?
+
+// HQL avec jointure implicite
+"from Message m where m.sender = :user"
+// SQL généré : SELECT m.* FROM messages m WHERE m.sender_id = ?</code></pre>
+
+<h2>persist() vs merge()</h2>
+<table>
+<tr><th>Méthode</th><th>Utilisation</th><th>SQL généré</th></tr>
+<tr><td><code>session.persist(entity)</code></td><td>Nouvel objet (id=null)</td><td>INSERT</td></tr>
+<tr><td><code>session.merge(entity)</code></td><td>Objet existant à mettre à jour</td><td>UPDATE</td></tr>
+<tr><td><code>session.get(Class, id)</code></td><td>Charger par ID</td><td>SELECT WHERE id=?</td></tr>
+</table>
+
+<h2>hbm2ddl.auto</h2>
+<table>
+<tr><th>Valeur</th><th>Comportement</th></tr>
+<tr><td><code>update</code></td><td>Crée/modifie les tables sans supprimer les données (utilisé ici)</td></tr>
+<tr><td><code>create</code></td><td>Recrée les tables à chaque démarrage (perd les données)</td></tr>
+<tr><td><code>validate</code></td><td>Vérifie que le schéma correspond aux entités (production)</td></tr>
+<tr><td><code>none</code></td><td>Ne touche pas au schéma</td></tr>
+</table>
+
+<h2>FetchType.EAGER vs LAZY</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">@ManyToOne(fetch = FetchType.EAGER)  // Charge User immédiatement avec Message
+private User sender;
+// SQL : SELECT m.*, u.* FROM messages m JOIN users u ON m.sender_id = u.id
+
+// FetchType.LAZY (défaut) : charge User seulement si accédé
+// Risque : LazyInitializationException si la session est fermée</code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ NETWORK -->
+<section class="sec" id="sec-network">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Concepts</span><span class="sep">›</span><span>Réseau TCP/IP</span></div>
+<h1><span class="em">🌐</span>Réseau TCP/IP</h1>
+<p class="sub">Concepts réseau utilisés dans le projet</p>
+
+<h2>TCP vs UDP</h2>
+<table>
+<tr><th>TCP (utilisé ici)</th><th>UDP</th></tr>
+<tr><td>Connexion persistante</td><td>Sans connexion</td></tr>
+<tr><td>Fiable (garantit la livraison)</td><td>Non fiable</td></tr>
+<tr><td>Ordonné (ordre des paquets garanti)</td><td>Non ordonné</td></tr>
+<tr><td>Plus lent</td><td>Plus rapide</td></tr>
+<tr><td>Idéal pour messagerie</td><td>Idéal pour streaming vidéo</td></tr>
+</table>
+
+<h2>ServerSocket</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// Côté serveur
+ServerSocket serverSocket = new ServerSocket(5000);
+// Écoute sur le port 5000 de toutes les interfaces réseau
+
+Socket clientSocket = serverSocket.accept();
+// Bloquant : attend une connexion entrante
+// Retourne un Socket dédié à ce client</code></pre>
+
+<h2>Socket</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// Côté client
+Socket socket = new Socket("localhost", 5000);
+// Établit une connexion TCP vers localhost:5000
+
+// Flux de communication
+InputStream  in  = socket.getInputStream();   // Lire les données reçues
+OutputStream out = socket.getOutputStream();  // Écrire les données à envoyer</code></pre>
+
+<h2>BufferedReader / PrintWriter</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// Lecture ligne par ligne
+BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+String line = in.readLine(); // Bloquant : attend une ligne complète (\n)
+// Retourne null si la connexion est fermée
+
+// Écriture avec flush automatique
+PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+out.println("HELLO|world"); // Envoie "HELLO|world\n" et vide le buffer</code></pre>
+
+<h2>Ports</h2>
+<table>
+<tr><th>Port</th><th>Utilisation</th></tr>
+<tr><td>0–1023</td><td>Ports système (HTTP=80, HTTPS=443, SSH=22)</td></tr>
+<tr><td>1024–49151</td><td>Ports enregistrés</td></tr>
+<tr><td>49152–65535</td><td>Ports dynamiques/privés</td></tr>
+<tr><td><strong>5000</strong></td><td>Port utilisé par notre serveur</td></tr>
+</table>
+
+<h2>Gestion de la déconnexion</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// Côté serveur (ClientHandler.run())
+while ((line = in.readLine()) != null) {
+    handleLine(line);
+}
+// readLine() retourne null quand le client ferme la connexion
+// → sortie de la boucle → finally → cleanup()
+
+// Côté client (ChatClient.connect())
+while ((line = in.readLine()) != null) {
+    listener.onLineReceived(line);
+}
+listener.onDisconnected(null); // Connexion fermée proprement
+// Si IOException : listener.onDisconnected(exception) → RG10</code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ THREADS -->
+<section class="sec" id="sec-threads">
+<div class="bc"><span>🏠</span><span class="sep">›</span><span>Concepts</span><span class="sep">›</span><span>Threads & Concurrence</span></div>
+<h1><span class="em">⚡</span>Threads & Concurrence</h1>
+<p class="sub">Gestion de la concurrence dans le projet</p>
+
+<h2>Threads dans le projet</h2>
+<table>
+<tr><th>Thread</th><th>Créé par</th><th>Rôle</th></tr>
+<tr><td>Main thread</td><td>JVM</td><td>Démarre ServerMain ou Launcher</td></tr>
+<tr><td>JavaFX Application Thread</td><td>JavaFX runtime</td><td>Gère l'UI (seul thread autorisé à modifier l'UI)</td></tr>
+<tr><td>ClientHandler (N threads)</td><td>ChatServer.start()</td><td>Un thread par client connecté (RG11)</td></tr>
+<tr><td>ChatClient reader thread</td><td>ChatClient.connect()</td><td>Lit les réponses du serveur en arrière-plan (daemon)</td></tr>
+</table>
+
+<h2>Thread daemon</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">readerThread.setDaemon(true);
+// Un thread daemon s'arrête automatiquement quand tous les threads
+// non-daemon se terminent (ex: quand l'utilisateur ferme la fenêtre)
+// Sans setDaemon(true), le thread continuerait à tourner après la fermeture</code></pre>
+
+<h2>ConcurrentHashMap</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// ChatServer.java
+private final Map&lt;String, ClientHandler&gt; activeUsers = new ConcurrentHashMap&lt;&gt;();
+// Thread-safe : plusieurs ClientHandler peuvent lire/écrire simultanément
+// sans ConcurrentModificationException
+
+// putIfAbsent est atomique : lecture + écriture en une seule opération
+activeUsers.putIfAbsent(username, handler); // RG3</code></pre>
+
+<h2>volatile</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// ChatClient.java
+private volatile Listener listener;
+// volatile garantit que les modifications sont visibles par tous les threads
+// Sans volatile, le thread de lecture pourrait voir une ancienne valeur</code></pre>
+
+<h2>synchronized</h2>
+<pre><button class="copy-btn" onclick="cp(this)">Copier</button><code class="language-java">// HibernateUtil.java
+synchronized (HibernateUtil.class) {
+    // Un seul thread peut exécuter ce bloc à la fois
+    // Garantit que SessionFactory n'est créée qu'une seule fois
+}</code></pre>
+
+<h2>Problèmes de concurrence évités</h2>
+<table>
+<tr><th>Problème</th><th>Solution utilisée</th></tr>
+<tr><td>Double connexion simultanée (RG3)</td><td><code>ConcurrentHashMap.putIfAbsent()</code></td></tr>
+<tr><td>Modification UI depuis thread non-JavaFX</td><td><code>Platform.runLater()</code></td></tr>
+<tr><td>Double initialisation SessionFactory</td><td>Double-checked locking + <code>synchronized</code></td></tr>
+<tr><td>Visibilité du Listener entre threads</td><td><code>volatile Listener listener</code></td></tr>
+</table>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <span>💬 Messagerie JavaFX — Documentation complète</span>
+  <a href="https://github.com/Dionecena/Java-Whatsapp" target="_blank">GitHub →</a>
+</footer>
+
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ── Section map ──
+const SECTIONS = {
+  home:'home', install:'install', arch:'arch', protocol:'protocol',
+  db:'db', entities:'entities', rules:'rules',
+  servermain:'servermain', chatserver:'chatserver', clienthandler:'clienthandler',
+  helloapp:'helloapp', appsession:'appsession', chatclient:'chatclient',
+  loginctrl:'loginctrl', chatctrl:'chatctrl', msgitem:'msgitem', msgcell:'msgcell',
+  userdao:'userdao', msgdao:'msgdao',
+  hibernate:'hibernate', password:'password',
+  fxml:'fxml', javafx:'javafx',
+  hibernate_concepts:'hibernate_concepts', network:'network', threads:'threads'
+};
+
+function show(id, anchorId) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('sec-' + id);
+  if (el) {
+    el.classList.add('active');
+    if (anchorId) {
+      const anchor = document.getElementById(anchorId);
+      if (anchor) {
+        setTimeout(() => anchor.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => {
+    const oc = n.getAttribute('onclick');
+    if (oc && oc.includes("'" + id + "'")) n.classList.add('active');
+  });
+  history.pushState(null, '', '#/' + id + (anchorId ? '#' + anchorId : ''));
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  }
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+
+// ── Copy code ──
+function cp(btn) {
+  const code = btn.parentElement.querySelector('code');
+  navigator.clipboard.writeText(code.innerText).then(() => {
+    btn.textContent = '✓ Copié !';
+    btn.style.cssText = 'background:#00A884;color:white';
+    setTimeout(() => { btn.textContent = 'Copier'; btn.style.cssText = ''; }, 2000);
+  });
+}
+
+// ── Search ──
+// Build search index from all sections; each item gets an anchor id for scroll-into-view
+let searchIndex = [];
+function buildIndex() {
+  searchIndex = [];
+  document.querySelectorAll('.sec').forEach(sec => {
+    const id = sec.id.replace('sec-', '');
+    const title = sec.querySelector('h1') ? sec.querySelector('h1').textContent.trim() : id;
+    let idx = 0;
+    sec.querySelectorAll('h2, h3, .method, .rule').forEach(el => {
+      const anchorId = el.id || ('anchor-' + id + '-' + idx);
+      if (!el.id) el.id = anchorId;
+      idx++;
+      const heading = el.querySelector('h2, h3, .method-sig, .rule-title');
+      const text = el.textContent.trim();
+      const label = heading ? heading.textContent.trim() : text.substring(0, 60);
+      searchIndex.push({ id, anchorId, sectionTitle: title, label, text: text.toLowerCase() });
+    });
+    searchIndex.push({ id, anchorId: null, sectionTitle: title, label: title, text: sec.textContent.toLowerCase() });
+  });
+}
+
+function doSearch(q) {
+  const box = document.getElementById('searchResults');
+  if (!q.trim()) { box.style.display = 'none'; return; }
+  const query = q.toLowerCase().trim();
+  const results = [];
+  const seen = new Set();
+  searchIndex.forEach(item => {
+    if (item.text.includes(query)) {
+      const key = item.id + '|' + item.label;
+      if (!seen.has(key)) {
+        seen.add(key);
+        // Find context around the match
+        const idx = item.text.indexOf(query);
+        const start = Math.max(0, idx - 30);
+        const end = Math.min(item.text.length, idx + query.length + 50);
+        const preview = '...' + item.text.substring(start, end).replace(/\s+/g, ' ') + '...';
+        results.push({ id: item.id, anchorId: item.anchorId || '', sectionTitle: item.sectionTitle, label: item.label, preview });
+      }
+    }
+  });
+  if (results.length === 0) {
+    box.innerHTML = '<div class="sr-empty">Aucun résultat pour "' + escapeHtml(q) + '"</div>';
+  } else {
+    const escapeAttr = (s) => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+    box.innerHTML = results.slice(0, 12).map(r =>
+      `<div class="sr-item" data-section-id="${escapeAttr(r.id)}" data-anchor-id="${escapeAttr(r.anchorId || '')}" role="button" tabindex="0">
+        <div class="sr-title">${escapeHtml(r.sectionTitle)} › ${escapeHtml(r.label.substring(0,50))}</div>
+        <div class="sr-preview">${escapeHtml(r.preview.substring(0,80))}</div>
+      </div>`
+    ).join('');
+  }
+  box.style.display = 'block';
+}
+function escapeHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function hideSearch() {
+  document.getElementById('searchResults').style.display = 'none';
+}
+
+// ── Scroll to top ──
+window.addEventListener('scroll', () => {
+  document.getElementById('scrollTop').style.display = window.scrollY > 300 ? 'block' : 'none';
+});
+
+// ── Hash routing ──
+function loadHash() {
+  const h = window.location.hash;
+  if (h && h.startsWith('#/')) {
+    const rest = h.slice(2);
+    const sharp = rest.indexOf('#');
+    const id = sharp >= 0 ? rest.slice(0, sharp) : rest;
+    const anchorId = sharp >= 0 ? rest.slice(sharp + 1) : null;
+    if (SECTIONS[id]) show(id, anchorId || null);
+  }
+}
+
+// Clic / touche sur un résultat de recherche : navigation + scroll vers l'élément cliqué
+function goToSearchResult(item) {
+  const id = item.getAttribute('data-section-id');
+  const anchorId = item.getAttribute('data-anchor-id');
+  if (id) { show(id, anchorId || null); hideSearch(); }
+}
+document.getElementById('searchResults').addEventListener('mousedown', (e) => {
+  const item = e.target.closest('.sr-item');
+  if (item) { e.preventDefault(); goToSearchResult(item); }
+});
+document.getElementById('searchResults').addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter') return;
+  const item = e.target.closest('.sr-item');
+  if (item) { e.preventDefault(); goToSearchResult(item); }
+});
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  hljs.highlightAll();
+  buildIndex();
+  loadHash();
+});
+window.addEventListener('popstate', loadHash);
+</script>
+</body>
+</html>
