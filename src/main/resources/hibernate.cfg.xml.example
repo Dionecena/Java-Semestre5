@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!--
+    CONFIGURATION HIBERNATE – EXEMPLE
+    Copiez ce fichier en "hibernate.cfg.xml" et adaptez les paramètres.
+    Le fichier hibernate.cfg.xml est exclu du dépôt git (données sensibles).
+-->
+<hibernate-configuration>
+    <session-factory>
+        <!-- Connexion PostgreSQL -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/messagerie_db</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">mD2312003.</property>
+
+        <!-- Dialecte : Hibernate 6 le détecte automatiquement, pas besoin de le spécifier -->
+        <!-- <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property> -->
+
+        <!-- Schéma auto (update = créer/modifier les tables sans supprimer les données) -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Afficher les requêtes SQL (mettre false en production) -->
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">false</property>
+
+        <!-- Pool de connexions basique -->
+        <property name="hibernate.connection.pool_size">5</property>
+
+        <!-- Entités mappées -->
+        <mapping class="com.example.whatsapp_java.entities.User"/>
+        <mapping class="com.example.whatsapp_java.entities.Message"/>
+    </session-factory>
+</hibernate-configuration>
